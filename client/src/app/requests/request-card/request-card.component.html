@@ -1,1 +1,8 @@
-<p>request-card works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="request-card-title">{{ this.request.itemType }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-footer>
+    <mat-card-actions class="request-card-name" *ngIf="!this.showName">Requested by {{ this.request.name }}</mat-card-actions>
+  </mat-card-footer>
+</mat-card>

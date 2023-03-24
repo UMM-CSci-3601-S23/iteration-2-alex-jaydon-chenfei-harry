@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Request } from '../request';
 
 @Component({
   selector: 'app-request-card',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./request-card.component.scss']
 })
 export class RequestCardComponent {
+
+    @Input() request: Request;
+    @Input() simple?: boolean = false;
+    @Input() showName: boolean;
 
 }
