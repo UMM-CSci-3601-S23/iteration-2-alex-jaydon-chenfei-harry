@@ -13,7 +13,7 @@ import org.bson.UuidRepresentation;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import umm3601.request.RequestController;
-import umm3601.user.UserController;
+//import umm3601.user.UserController;
 
 public class Server {
 
@@ -41,7 +41,7 @@ public class Server {
     MongoDatabase database = mongoClient.getDatabase(databaseName);
 
     // Initialize dependencies
-    UserController userController = new UserController(database);
+    //UserController userController = new UserController(database);
     RequestController requestController = new RequestController(database);
 
     Javalin server = Javalin.create(config ->
@@ -62,7 +62,9 @@ public class Server {
 
     server.start(SERVER_PORT);
 
-    // List users, filtered using query parameters
+    // These endpoints for fetching the users are not necessary. We would like to keep the files for reference anyway. -Jaydon
+
+    /*// List users, filtered using query parameters
     server.get("/api/users", userController::getUsers);
 
     // Get the specified user
@@ -73,12 +75,12 @@ public class Server {
 
     // Add new user with the user info being in the JSON body
     // of the HTTP request
-    server.post("/api/users", userController::addNewUser);
+    server.post("/api/users", userController::addNewUser);*/
 
     //Request api endpoints
 
     //List requests, filtered using query parameters
-    server.get("/api/requests/donor", requestController::getRequests);
+    server.get("/api/requests", requestController::getRequests);
 
     server.post("/api/requests/new", requestController::addNewRequest);
 
