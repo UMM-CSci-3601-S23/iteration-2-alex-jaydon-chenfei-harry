@@ -31,7 +31,6 @@ import { RequestVolunteerComponent } from './requests/request-volunteer.componen
 import { NewRequestComponent } from './requests/new-request/new-request.component';
 
 
-
 const MATERIAL_MODULES: any[] = [
   MatButtonModule,
   MatCardModule,
