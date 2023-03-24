@@ -10,5 +10,6 @@ export class RequestCardComponent {
 
     @Input() request: Request;
     @Input() simple?: boolean = false;
+    @Input() showName: boolean;
 
 }
