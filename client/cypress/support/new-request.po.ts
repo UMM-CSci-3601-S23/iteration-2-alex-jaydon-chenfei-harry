@@ -4,13 +4,14 @@ export class NewRequestPage {
 
   private readonly url = '/requests/client';
   private readonly title = '.new-request-title';
-  private readonly button = '[data-test=confirmNewRequestButton]';
+  private readonly button1 = '[data-test=confirmNewRequestButton]';
   private readonly snackBar = '.mat-mdc-simple-snack-bar';
   private readonly itemTypeFieldName = 'itemType';
   private readonly foodTypeFieldName = 'foodType';
   private readonly descFieldName = 'description';
   private readonly formFieldSelector = `mat-form-field`;
   private readonly dropDownSelector = `mat-option`;
+  private readonly button2 = '[data-test=backtoHomepageButton]';
 
   navigateTo() {
     return cy.visit(this.url);
@@ -25,7 +26,11 @@ export class NewRequestPage {
   }
 
   newRequestButton() {
-    return cy.get(this.button);
+    return cy.get(this.button1);
+  }
+
+  backtoHomepageButton(){
+    return cy.get(this.button2);
   }
 
   selectMatSelectValue(select: Cypress.Chainable, value: string) {
@@ -60,5 +65,4 @@ export class NewRequestPage {
     }
     return this.newRequestButton().click();
   }
-
 }

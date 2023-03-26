@@ -12,6 +12,12 @@ describe('Add request', () => {
     page.getTitle().should('have.text',' Item Request Form ');
   });
 
+  it('should be able to navigate back to homepage', () => {
+    // Ability to navigate to Home
+    page.backtoHomepageButton().click();
+    cy.url().should('match', /^https?:\/\/[^/]+\/?$/);
+  });
+
   it('Should enable the submit request button once all criteria are met', () => {
     // ADD USER button should be disabled until all the necessary fields
     // are filled. Once the last (`#emailField`) is filled, then the button should
@@ -58,6 +64,8 @@ describe('Add request', () => {
     cy.get('[data-test=itemTypeError]').should('not.exist');
   });
 
+
+
   describe('Adding a new request', () => {
 
     beforeEach(() => {
@@ -87,4 +95,6 @@ describe('Add request', () => {
       // We should see the confirmation message at the bottom of the screen
     });
   });
+
+
 });
