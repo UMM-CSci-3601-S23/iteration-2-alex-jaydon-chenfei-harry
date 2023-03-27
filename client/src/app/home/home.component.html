@@ -8,26 +8,37 @@
       </mat-card-header>
     </mat-card>
     <div class="tactile-stuff">
-    <mat-form-field class="input-field">
-      <mat-label>I am a...</mat-label>
-      <mat-select
-      [(ngModel)]="userRole"
-      (selectionChange)="changeRole(userRole)"
-      data-test="userRoleSelect"
-      required >
-        <mat-option>--</mat-option>
-        <mat-option value="donor">Donor</mat-option>
-        <mat-option value="client">Client</mat-option>
-        <mat-option value="volunteer">Volunteer</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <a class="continue-button"
-    mat-raised-button
-    [routerLink] = "['/requests', userRole]"
-    matRipple
-    [disabled]="!userRole">
-      Continue
-  </a>
+      <mat-form-field class="input-field">
+        <mat-label>I am a...</mat-label>
+        <mat-select
+          [(ngModel)]="userRole"
+          (selectionChange)="changeRole(userRole)"
+          data-test="userRoleSelect"
+          required>
+          <mat-option>--</mat-option>
+          <mat-option value="donor">Donor</mat-option>
+          <mat-option value="client">Client</mat-option>
+          <mat-option value="volunteer">Volunteer</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <a class="continue-button"
+         mat-raised-button
+         [routerLink]="['/requests', userRole]"
+         matRipple
+         [disabled]="!userRole">
+        Continue
+      </a>
+      <!-- The code below is used for iteration 3 -->
+      <!-- <p *ngIf="userRole === 'donor'">
+        Don't have an account yet? <a routerLink="/register/donor">Create one now</a>.
+      </p>
+      <p *ngIf="userRole === 'volunteer'">
+        Don't have an account yet? <a routerLink="/register/volunteer">Create one now</a>.
+      </p>
+      <p *ngIf="userRole === 'client'">
+        Don't have an account yet? <a routerLink="/register/client">Create one now</a>.
+      </p> -->
     </div>
   </div>
 </div>
+
