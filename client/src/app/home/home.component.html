@@ -28,8 +28,8 @@
          [disabled]="!userRole">
         Continue
       </a>
-      <br>
-      <p *ngIf="userRole === 'donor'">
+      <!-- The code below is used for iteration 3 -->
+      <!-- <p *ngIf="userRole === 'donor'">
         Don't have an account yet? <a routerLink="/register/donor">Create one now</a>.
       </p>
       <p *ngIf="userRole === 'volunteer'">
@@ -37,7 +37,7 @@
       </p>
       <p *ngIf="userRole === 'client'">
         Don't have an account yet? <a routerLink="/register/client">Create one now</a>.
-      </p>
+      </p> -->
     </div>
   </div>
 </div>
