@@ -39,9 +39,10 @@
 
 <!--Card View-->
 <div class="flex-row">
-  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" >
+  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredRequests" >
     <!-- Card grid view -->
-    <div *ngSwitchCase="'card'" class="user-cards-container flex-row gap-10 flex-wrap">
+    <div class="request-cards-container flex-row gap-10 flex-wrap">
+      <!-- For some reason, cards are not currently displaying here... -->
       <app-request-card [simple]="true" *ngFor="let request of filteredRequests" class="request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
     </div>
   </div>

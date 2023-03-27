@@ -17,7 +17,7 @@ import umm3601.request.RequestController;
 
 public class Server {
 
-  private static final int SERVER_PORT = 4568;
+  private static final int SERVER_PORT = 4566;
 
   public static void main(String[] args) {
 
