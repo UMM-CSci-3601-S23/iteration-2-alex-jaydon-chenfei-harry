@@ -10,9 +10,15 @@ describe('Donor View', () => {
   beforeEach(() => {
     page.navigateTo();
   });
-  //Tests for the page with no filters
+
   it('Should have the correct title', () => {
     page.getDonorViewTitle().should('have.text', 'Needs requested');
+  });
+
+  it('should be able to navigate back to homepage', () => {
+    // Ability to navigate to Home
+    page.backtoHomepageButton().click();
+    cy.url().should('match', /^https?:\/\/[^/]+\/?$/);
   });
 
   it('Should display 7 requests', () => {

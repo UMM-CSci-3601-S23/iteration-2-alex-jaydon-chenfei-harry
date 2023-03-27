@@ -9,19 +9,15 @@ describe('App', () => {
     page.getAppTitle().should('contain', 'PocketShelf');
   });
 
-  it('The sidenav should open, navigate to "New Request" and back to "Home"', () => {
-    // Before clicking on the button, the sidenav should be hidden
+  it('There is no sidebar on the homepage', () => {
+    // To make the homepage more readable and accessible,
+    // the sidebar is removed as a feature
     page.getSidenav()
-      .should('be.hidden');
+      .should('not.exist');
     page.getSidenavButton()
-      .should('be.visible');
+      .should('not.exist');
 
-    // Try to navigate to Home
-    page.getSidenavButton().click();
-    page.getNavLink('Home').click();
-    cy.url().should('match', /^https?:\/\/[^/]+\/?$/);
-    page.getSidenav()
-      .should('be.hidden');
+
   });
 
 });
