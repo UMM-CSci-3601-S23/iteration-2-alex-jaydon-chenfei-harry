@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, /*OnInit*/ } from '@angular/core';
 import { Request } from '../request';
 
 @Component({
@@ -6,13 +6,14 @@ import { Request } from '../request';
   templateUrl: './request-card.component.html',
   styleUrls: ['./request-card.component.scss']
 })
-export class RequestCardComponent implements OnInit {
+export class RequestCardComponent /*implements OnInit*/ {
 
   @Input() request: Request;
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
 
-  protected condensedRequestBody: string;
+  // THIS CODE MAY NOT BE NECESSARY. --Jaydon
+  /*protected condensedRequestBody: string;
 
   condenseRequestBody(): void {
     if(this.request.description.length < 20) {
@@ -25,6 +26,6 @@ export class RequestCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.condenseRequestBody();
-  }
+  }*/
 
 }
