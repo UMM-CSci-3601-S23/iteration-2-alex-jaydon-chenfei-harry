@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class RequestService {
   // The URL for the requests part of the server API
-  readonly requestUrl: string = `${environment.apiUrl}requests/donor`;
+  readonly requestUrl: string = `${environment.apiUrl}requests`;
   readonly newRequestUrl: string = `${environment.apiUrl}requests/new`;
 
   private readonly itemTypeKey = 'itemType';
