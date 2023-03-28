@@ -19,7 +19,7 @@ export class RequestService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getRequests(filters?: {itemType?: ItemType; foodType?: FoodType}): Observable<Request[]> {
+  getRequests(filters?: {name?: string; itemType?: ItemType; foodType?: FoodType}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.itemType) {

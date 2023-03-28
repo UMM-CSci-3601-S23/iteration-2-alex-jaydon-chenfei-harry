@@ -7,7 +7,12 @@
     {{ this.request.description }}
   </mat-card-content>
   <mat-card-footer style="font-style: italic">
-    <mat-card-actions class="request-card-name" *ngIfElse="this.showName">Requested by {{ this.request.name }}</mat-card-actions>
-    <mat-card-actions #ngIfElse>Requested by Anonymous</mat-card-actions>
+    <div *ngIf="this.showName;then volunteerView else donorView"></div>
+    <ng-template #volunteerView>
+      <mat-card-actions #volunteerView class="request-card-name">Requested by {{ this.request.name }}</mat-card-actions>
+    </ng-template>
+    <ng-template #donorView>
+      <mat-card-actions #donorView>Requested by Anonymous</mat-card-actions>
+    </ng-template>
   </mat-card-footer>
 </mat-card>
