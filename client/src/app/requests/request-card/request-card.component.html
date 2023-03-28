@@ -1,8 +1,13 @@
 <mat-card class="request-card">
   <mat-card-header>
-    <mat-card-title class="request-card-title">{{ this.request.name }}</mat-card-title>
+    <mat-card-title class="request-card-title">{{ this.request.itemType }} </mat-card-title>
   </mat-card-header>
-  <mat-card-footer>
-    <mat-card-actions class="request-card-name" *ngIf="this.showName">Requested by {{ this.request.name }}</mat-card-actions>
+  <!-- I'm using inline styling here since it seems to have issues otherwise. I know it's not the best. -Jaydon -->
+  <mat-card-content style="height: 25px; color: grey; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+    {{ this.request.description }}
+  </mat-card-content>
+  <mat-card-footer style="font-style: italic">
+    <mat-card-actions class="request-card-name" *ngIfElse="this.showName">Requested by {{ this.request.name }}</mat-card-actions>
+    <mat-card-actions #ngIfElse>Requested by Anonymous</mat-card-actions>
   </mat-card-footer>
 </mat-card>
