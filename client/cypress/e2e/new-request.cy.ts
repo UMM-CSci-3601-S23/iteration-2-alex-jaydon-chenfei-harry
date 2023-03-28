@@ -78,6 +78,7 @@ describe('Add request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
+        name: ''
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
