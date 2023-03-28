@@ -62,7 +62,8 @@ public class Server {
 
     server.start(SERVER_PORT);
 
-    // These endpoints for fetching the users are not necessary. We would like to keep the files for reference anyway. -Jaydon
+    // These endpoints for fetching the users are not necessary.
+    // We would like to keep the files for reference anyway. -Jaydon
 
     /*// List users, filtered using query parameters
     server.get("/api/users", userController::getUsers);
