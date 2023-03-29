@@ -1,1 +1,7 @@
-
+.mat-mdc-card-content {
+  height: 25px;
+  color: grey;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
