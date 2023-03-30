@@ -15,9 +15,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';
-import { ItemType, Request } from './request';
-import { RequestVolunteerComponent } from './request-volunteer.component';
-import { RequestService } from './request.service';
+import { ItemType, Request } from '../../requests/request';
+import { RequestDonorComponent } from './request-donor.component';
+import { RequestService } from '../../requests/request.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -40,51 +40,51 @@ const COMMON_IMPORTS: unknown[] = [
   RouterTestingModule,
 ];
 
-describe('Volunteer Request View', () => {
-  let volunteerList: RequestVolunteerComponent;
-  let fixture: ComponentFixture<RequestVolunteerComponent>;
+describe('Donor Request View', () => {
+  let donorList: RequestDonorComponent;
+  let fixture: ComponentFixture<RequestDonorComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
-      declarations: [RequestVolunteerComponent],
+      declarations: [RequestDonorComponent],
       providers: [{ provide: RequestService, useValue: new MockRequestService() }]
     });
   });
 
   beforeEach(waitForAsync (() => {
     TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(RequestVolunteerComponent);
-      volunteerList = fixture.componentInstance;
+      fixture = TestBed.createComponent(RequestDonorComponent);
+      donorList = fixture.componentInstance;
       fixture.detectChanges();
     });
   }));
 
   it('contains all requests', () => {
-    expect(volunteerList.serverFilteredRequests.length).toBe(4);
+    expect(donorList.serverFilteredRequests.length).toBe(4);
   });
 
   it('contains a request for food', () => {
-    expect(volunteerList.serverFilteredRequests.some((request: Request) => request.itemType === 'food')).toBe(true);
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'food')).toBe(true);
   });
 
   it('contains a request for toiletries', () => {
-    expect(volunteerList.serverFilteredRequests.some((request: Request) => request.itemType === 'toiletries')).toBe(true);
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'toiletries')).toBe(true);
   });
 
   it('contains a request for other', () => {
-    expect(volunteerList.serverFilteredRequests.some((request: Request) => request.itemType === 'other')).toBe(true);
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'other')).toBe(true);
   });
 
   it('contains a request for itemType food and foodType meat', () => {
-    expect(volunteerList.serverFilteredRequests.some((request: Request) => request.itemType === 'food'
+    expect(donorList.serverFilteredRequests.some((request: Request) => request.itemType === 'food'
      && request.foodType === 'meat')).toBe(true);
   });
 });
 
-describe('Misbehaving Volunteer view', () => {
-  let volunteerList: RequestVolunteerComponent;
-  let fixture: ComponentFixture<RequestVolunteerComponent>;
+describe('Misbehaving Donor view', () => {
+  let donorList: RequestDonorComponent;
+  let fixture: ComponentFixture<RequestDonorComponent>;
 
   let requestServiceStub: {
     getRequests: () => Observable<Request[]>;
@@ -99,26 +99,25 @@ describe('Misbehaving Volunteer view', () => {
 
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
-      declarations: [RequestVolunteerComponent],
+      declarations: [RequestDonorComponent],
       providers: [{provide: RequestService, useValue: requestServiceStub}]
     });
   });
 
   beforeEach(waitForAsync(() => {
     TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(RequestVolunteerComponent);
-      volunteerList = fixture.componentInstance;
+      fixture = TestBed.createComponent(RequestDonorComponent);
+      donorList = fixture.componentInstance;
       fixture.detectChanges();
     });
   }));
 
-  it('generates an error if we don\'t set up a RequestVolunteerService', () => {
-    expect(volunteerList.serverFilteredRequests).toBeUndefined();
+  it('generates an error if we don\'t set up a RequestDonorService', () => {
+    expect(donorList.serverFilteredRequests).toBeUndefined();
   });
 
   it('updateFilter properly reassigns our request list', ()=>{
-    volunteerList.updateFilter();
-    expect(volunteerList.filteredRequests === volunteerList.serverFilteredRequests).toBeTruthy();
+    donorList.updateFilter();
+    expect(donorList.filteredRequests === donorList.serverFilteredRequests).toBeTruthy();
   });
-
 });

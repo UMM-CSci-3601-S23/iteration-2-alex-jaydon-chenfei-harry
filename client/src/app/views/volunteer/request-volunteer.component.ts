@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { Request, ItemType, FoodType } from './request';
-import { RequestService } from './request.service';
+import { Request, ItemType, FoodType } from '../../requests/request';
+import { RequestService } from '../../requests/request.service';
 
 
 @Component({

@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { FoodType } from '../request';
-import { ItemType } from '../request';
-import { RequestService } from '../request.service';
+import { FoodType, ItemType } from '../requests/request';
+import { RequestService } from '../requests/request.service';
 
 @Component({
   selector: 'app-new-request',
