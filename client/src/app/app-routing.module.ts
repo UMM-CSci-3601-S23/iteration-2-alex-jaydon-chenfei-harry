@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { NewRequestComponent } from './requests/new-request/new-request.component';
-import { RequestDonorComponent } from './requests/request-donor.component';
-import { RequestVolunteerComponent } from './requests/request-volunteer.component';
+import { NewRequestComponent } from './new-request/new-request.component';
+import { RequestDonorComponent } from './views/donor/request-donor.component';
+import { RequestVolunteerComponent } from './views/volunteer/request-volunteer.component';
 
 // Note that the 'users/new' route needs to come before 'users/:id'.
 // If 'users/:id' came first, it would accidentally catch requests to
