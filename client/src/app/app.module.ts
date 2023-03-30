@@ -26,9 +26,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
-import { RequestDonorComponent } from './requests/request-donor.component';
-import { RequestVolunteerComponent } from './requests/request-volunteer.component';
-import { NewRequestComponent } from './requests/new-request/new-request.component';
+import { RequestDonorComponent } from './views/donor/request-donor.component';
+import { RequestVolunteerComponent } from './views/volunteer/request-volunteer.component';
+import { NewRequestComponent } from './new-request/new-request.component';
 
 
 

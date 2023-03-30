@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { Request, ItemType, FoodType } from './request';
-import { RequestService } from './request.service';
+import { Request, ItemType, FoodType } from '../../requests/request';
+import { RequestService } from '../../requests/request.service';
 
 
 @Component({
-  selector: 'app-request-donor',
-  templateUrl: './request-donor.component.html',
-  styleUrls: ['./request-donor.component.scss'],
+  selector: 'app-request-volunteer',
+  templateUrl: './request-volunteer.component.html',
+  styleUrls: ['./request-volunteer.component.scss'],
   providers: []
 })
 
-export class RequestDonorComponent implements OnInit, OnDestroy {
+export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public serverFilteredRequests: Request[];
   public filteredRequests: Request[];
 

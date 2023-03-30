@@ -8,7 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockRequestService } from 'src/testing/request.service.mock';;
-import { RequestService } from '../request.service';
+import { RequestService } from '../requests/request.service';
 import { NewRequestComponent } from './new-request.component';
 
 describe('NewRequestComponent', () => {
