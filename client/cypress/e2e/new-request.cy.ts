@@ -93,7 +93,7 @@ describe('Add request', () => {
       cy.visit('/requests/volunteer');
       cy.get('.request-card-title').should('contain.text', request.itemType);
       cy.get('.request-card-description').should('contain.text', request.description);
-      cy.get('.request-card-name').should('contain.text', 'Requested by'+ request.name);
+      cy.get('.request-card-name').should('contain.text', 'Requested by '+ request.name);
 
       // The new request should have all the same attributes as we entered in donor's view,
       // but the name would be anonymous.
