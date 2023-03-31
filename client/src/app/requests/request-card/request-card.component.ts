@@ -12,6 +12,9 @@ export class RequestCardComponent /*implements OnInit*/ {
   @Input() request: Request;
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
+  priority: number;
+  }
+
 
   // THIS CODE MAY NOT BE NECESSARY. --Jaydon
   /*protected condensedRequestBody: string;
