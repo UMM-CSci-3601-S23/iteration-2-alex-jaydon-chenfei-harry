@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
-
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -67,6 +67,7 @@ const MATERIAL_MODULES: any[] = [
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatBadgeModule,
     ReactiveFormsModule,
     HttpClientModule,
     MATERIAL_MODULES,
