@@ -15,6 +15,7 @@ export class NewRequestComponent {
   public type: ItemType = 'food';
 
   newRequestForm = new FormGroup({
+    name: new FormControl('', Validators.compose([])),
     // We want descriptions to be short and sweet, yet still required so we have at least some idea what
     // the client wants
     description: new FormControl('', Validators.compose([
