@@ -21,8 +21,12 @@ describe('Donor View', () => {
     cy.url().should('match', /^https?:\/\/[^/]+\/?$/);
   });
 
-  it('Should display 7 requests', () => {
+  it('Should display 7 requests without telling names of the clients', () => {
     page.getRequestListItems().should('have.length', 7);
+
+    page.getRequestListItems().each(el => {
+      cy.wrap(el).get('.request-card-name').should('contain.text', 'Requested by Anonymous');
+    });
   });
 
   //Tests with item filters
@@ -32,7 +36,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 5);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'Item Type: food');
+      cy.wrap(el).find('.request-card-title').should('contain.text', 'food');
     });
   });
 
@@ -42,7 +46,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 1);
 
     page.getRequestListItems().each($list => {
-      cy.wrap($list).find('.donor-list-itemType').should('contain.text', 'Item Type: toiletries');
+      cy.wrap($list).find('.request-card-title').should('contain.text', 'toiletries');
     });
   });
 
@@ -59,11 +63,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 1);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'Item Type: food');
-    });
-
-    page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'Food Type: dairy');
+      cy.wrap(el).find('.request-card-title').should('contain.text', 'food');
     });
   });
 
@@ -74,11 +74,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 1);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-itemType').should('contain.text', 'Item Type: food');
-    });
-
-    page.getRequestListItems().each(el => {
-      cy.wrap(el).find('.donor-list-foodType').should('contain.text', 'Food Type: meat');
+      cy.wrap(el).find('.request-card-title').should('contain.text', 'food');
     });
   });
 });

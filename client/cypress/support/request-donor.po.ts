@@ -6,7 +6,7 @@ export class RequestDonorPage {
   private readonly requestItemTypeDropDown = '[data-test=requestItemTypeSelect]';
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
   private readonly dropdownOptionSelector = `mat-option`;
-  private readonly requestListItemSelector = '.donor-nav-list .donor-list-item';
+  private readonly requestListItemSelector = '.donor-request-card';
   private readonly button = '[data-test=backtoHomepageButton]';
 
   navigateTo() {
