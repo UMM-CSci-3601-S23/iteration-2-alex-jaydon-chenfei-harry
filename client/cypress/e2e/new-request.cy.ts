@@ -23,6 +23,8 @@ describe('Add request', () => {
     // are filled. Once the last (`#emailField`) is filled, then the button should
     // become enabled.
     page.newRequestButton().should('be.disabled');
+    page.getFormField('name').type('alex');
+    page.newRequestButton().should('be.disabled');
     page.setMatSelect('itemType', 'Food');
     page.newRequestButton().should('be.disabled');
     page.getFormField('description').type('test');

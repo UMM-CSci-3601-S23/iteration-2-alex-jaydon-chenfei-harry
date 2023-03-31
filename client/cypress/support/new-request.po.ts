@@ -6,8 +6,7 @@ export class NewRequestPage {
   private readonly title = '.new-request-title';
   private readonly button1 = '[data-test=confirmNewRequestButton]';
   private readonly snackBar = '.mat-mdc-simple-snack-bar';
-  private readonly itemTypeFieldName = 'itemType';
-  private readonly foodTypeFieldName = 'foodType';
+  private readonly clientName = 'name';
   private readonly descFieldName = 'description';
   private readonly formFieldSelector = `mat-form-field`;
   private readonly dropDownSelector = `mat-option`;
@@ -58,6 +57,7 @@ export class NewRequestPage {
   }
 
   newRequest(newRequest: Request) {
+    this.getFormField(this.clientName).type(newRequest.name);
     this.getFormField(this.descFieldName).type(newRequest.description);
     this.setMatSelect('itemType', this.capitalize(newRequest.itemType));
     if (newRequest.itemType === 'food'){
