@@ -32,4 +32,3 @@ export class RequestCardComponent /*implements OnInit*/ {
     this.condenseRequestBody();
   }*/
 
-}
