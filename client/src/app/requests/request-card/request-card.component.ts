@@ -12,10 +12,11 @@ export class RequestCardComponent /*implements OnInit*/ {
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
 
-  @Input() viewExpanded = false;
+  @Input() viewExpanded: boolean;
 
   expandView(): void {
     this.viewExpanded = !this.viewExpanded;
     console.log('expandView() called');
+    console.log(this.request.name);
   }
 }

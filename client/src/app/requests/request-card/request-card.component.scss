@@ -5,8 +5,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  .display-full-card-view {
-    height: auto;
-    text-overflow: clip;
-  }
+
+}
+.display-full-card-view {
+  height: auto;
+  white-space: normal;
+  text-overflow: clip;
 }

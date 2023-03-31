@@ -6,13 +6,14 @@
   <mat-card-footer style="font-style: italic">
     <div *ngIf="this.showName;then volunteerView else donorView"></div>
     <ng-template #volunteerView>
-      <mat-card-actions #volunteerView class="request-card-name">Requested by {{ this.request.name }}</mat-card-actions>
+      <mat-card-actions #volunteerView class="request-card-name" *ngIf="this.request.name;else nullName">Requested by {{ this.request.name }}</mat-card-actions>
+      <ng-template #nullName>
+        <mat-card-actions #nullName>No name</mat-card-actions>
+      </ng-template>
     </ng-template>
     <ng-template #donorView>
       <mat-card-actions #donorView class="request-card-name">Requested by Anonymous</mat-card-actions>
     </ng-template>
   </mat-card-footer>
-  <!-- TODO: find out why this is not expanding the card body. It seems that it doesn't even call the method at all when clicked, since nothing is
-        logged to the console even with a console.log() statement in the method. -->
   <button mat-button block type="button" (click)="expandView()">EXPAND</button>
 </mat-card>
