@@ -1,10 +1,12 @@
-<mat-card class="request-card">
+<mat-card class = "request-card">
+
   <mat-card-header>
     <mat-card-title class="request-card-title">{{ this.request.itemType }} </mat-card-title>
   </mat-card-header>
   <!-- I'm using inline styling here since it seems to have issues otherwise. I know it's not the best. -Jaydon -->
   <mat-card-content style="height: 25px; color: grey; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
     {{ this.request.description }}
+    <div matBadge="3" matBadgeOverlap="false" class="demo-section">Priority</div>
   </mat-card-content>
   <mat-card-footer style="font-style: italic">
     <mat-card-actions class="request-card-name" *ngIfElse="this.showName">Requested by {{ this.request.name }}</mat-card-actions>
