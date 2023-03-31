@@ -25,7 +25,7 @@ describe('Donor View', () => {
     page.getRequestListItems().should('have.length', 7);
 
     page.getRequestListItems().each(el => {
-      cy.wrap(el).get('.request-card-name').should('contain.text', 'Requested by Anonymous');
+      cy.wrap(el).get('.donor-card-name').should('contain.text', 'Requested by Anonymous');
     });
   });
 

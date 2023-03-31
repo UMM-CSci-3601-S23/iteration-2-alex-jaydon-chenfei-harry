@@ -25,7 +25,7 @@ describe('Volunteer View', () => {
     page.getRequestListItems().should('have.length', 7);
 
     page.getRequestListItems().each(el => {
-      cy.get('.request-card-name').should('contain.text', 'Requested by');
+      cy.get('.null-name').should('contain.text', 'No name');
     });
   });
 
