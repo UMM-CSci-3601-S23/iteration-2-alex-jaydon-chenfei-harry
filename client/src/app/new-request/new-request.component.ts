@@ -18,7 +18,6 @@ export class NewRequestComponent {
     name: new FormControl('', Validators.compose([])),
     // We want descriptions to be short and sweet, yet still required so we have at least some idea what
     // the client wants
-    name: new FormControl(''),
     description: new FormControl('', Validators.compose([
       Validators.required,
       Validators.minLength(5),
