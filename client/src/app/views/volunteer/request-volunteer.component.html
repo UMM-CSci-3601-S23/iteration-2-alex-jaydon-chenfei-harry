@@ -58,4 +58,54 @@
   Back to Homepage
 </button>
 </div>
+<br>
+<div>
+  <button mat-raised-button color="primary" (click)="sortRequests()">Sort by priority</button>
+
+</div>
+<div class="request-cards">
+  <mat-card *ngFor="let request of filteredRequests" class="request-card">
+    <mat-card-header>
+      <mat-card-title>{{ request.itemType }}</mat-card-title>
+      <mat-card-subtitle>{{ request.foodType }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ request.description }}</p>
+      <div>
+        <strong>Priority:</strong>
+        <input type="number" [(ngModel)]="request.priority" min="1" max="5" >
+
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<style>
+  .request-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .request-card {
+    width: calc((100% - 2rem) / 3);
+  }
+
+  @media only screen and (max-width: 768px) {
+    .request-card {
+      width: calc((100% - 1rem) / 2);
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    .request-card {
+      width: 100%;
+    }
+  }
+</style>
+
+
+
+
 
