@@ -4,4 +4,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  .display-full-card-view {
+    height: auto;
+    text-overflow: clip;
+  }
 }

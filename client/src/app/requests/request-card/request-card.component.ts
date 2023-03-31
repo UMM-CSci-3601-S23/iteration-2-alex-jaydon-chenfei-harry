@@ -12,20 +12,10 @@ export class RequestCardComponent /*implements OnInit*/ {
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
 
-  // THIS CODE MAY NOT BE NECESSARY. --Jaydon
-  /*protected condensedRequestBody: string;
+  @Input() viewExpanded = false;
 
-  condenseRequestBody(): void {
-    if(this.request.description.length < 20) {
-      this.condensedRequestBody = this.request.description.slice(0, 20) + '...';
-    }
-    else {
-      this.condensedRequestBody = this.request.description;
-    }
+  expandView(): void {
+    this.viewExpanded = !this.viewExpanded;
+    console.log('expandView() called');
   }
-
-  ngOnInit(): void {
-    this.condenseRequestBody();
-  }*/
-
 }
