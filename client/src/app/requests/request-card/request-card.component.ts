@@ -7,6 +7,7 @@ import { Request } from '../request';
   styleUrls: ['./request-card.component.scss']
 })
 export class RequestCardComponent /*implements OnInit*/ {
+[x: string]: any;
 
   @Input() request: Request;
   @Input() simple?: boolean = false;
