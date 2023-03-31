@@ -78,22 +78,29 @@ describe('Add request', () => {
         itemType: 'food',
         foodType: 'meat',
         description: ' TEST REQUEST!!!!',
-        name: ''
+        name: 'Jaydon'
       };
       page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
+      // We should see the confirmation message at the bottom of the screen
       page.getSnackBar().should('contain', `Request successfully submitted`);
       // New URL should end in the 24 hex character Mongo ID of the newly added request
       cy.url()
         .should('match', /\/requests\/client$/)
         .should('not.match', /\/requests\/new$/);
 
-      // The new request should have all the same attributes as we entered
+      // The new request should have all the same attributes as we entered in volunteer's view
+      cy.visit('/requests/volunteer');
+      cy.get('.request-card-title').should('contain.text', request.itemType);
+      cy.get('.request-card-description').should('contain.text', request.description);
+      cy.get('.request-card-name').should('contain.text', 'Requested by '+ request.name);
+
+      // The new request should have all the same attributes as we entered in donor's view,
+      // but the name would be anonymous.
       cy.visit('/requests/donor');
-      cy.get('.donor-list-description').should('contain.text', request.description);
-      cy.get('.donor-list-itemType').should('contain.text', request.itemType);
-      cy.get('.donor-list-foodType').should('contain.text', request.foodType);
-      // We should see the confirmation message at the bottom of the screen
+      cy.get('.request-card-title').should('contain.text', request.itemType);
+      cy.get('.request-card-description').should('contain.text', request.description);
+      cy.get('.request-card-name').should('contain.text', 'Requested by Anonymous');
     });
   });
 
