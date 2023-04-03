@@ -13,7 +13,6 @@ import { RequestService } from '../../requests/request.service';
 export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public serverFilteredRequests: Request[];
   public filteredRequests: Request[];
-
   public requestItemType: ItemType;
   public requestDescription: string;
   public requestFoodType: FoodType;
@@ -70,7 +69,6 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     this.filteredRequests.sort((a, b) => {
       const priorityA = a.requestPriority || 0;
       const priorityB = b.requestPriority || 0;
-
       return priorityB - priorityA;
     });
   }
