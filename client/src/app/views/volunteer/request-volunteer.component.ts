@@ -17,20 +17,16 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public requestItemType: ItemType;
   public requestDescription: string;
   public requestFoodType: FoodType;
-
   private ngUnsubscribe = new Subject<void>();
-  private priorityMap = {
-    high: 0,
-    medium: 1,
-    low: 2
-  };
 
   constructor(
     private requestService: RequestService,
     private snackBar: MatSnackBar
   ) {}
 
-  // Gets the requests from the server with the correct filters
+  updateRequestPriority(request: Request) {
+    request.requestPriority = request.requestPriority;
+  }
   getRequestsFromServer(): void {
     this.requestService
       .getRequests({
@@ -57,22 +53,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   }
 
   public updateFilter(): void {
-    this.serverFilteredRequests.sort((a: Request, b: Request) => {
-      const priorityA = this.priorityMap[a.foodType];
-      const priorityB = this.priorityMap[b.foodType];
-
-      // sort by priority first
-      if (priorityA !== priorityB) {
-        return priorityA - priorityB;
-      }
-
-      // if priorities are equal, sort by requestPriority
-      const requestPriorityA = a.requestPriority || 0;
-      const requestPriorityB = b.requestPriority || 0;
-      return requestPriorityB - requestPriorityA;
-    });
-
     this.filteredRequests = [...this.serverFilteredRequests];
+    this.sortRequests();
   }
 
   ngOnInit(): void {
@@ -84,26 +66,12 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  // Sorts the requests based on request priority and filters out requests with a priority less than 2
   sortRequests() {
     this.filteredRequests.sort((a, b) => {
-      const priorityA = this.priorityMap[a.foodType];
-      const priorityB = this.priorityMap[b.foodType];
+      const priorityA = a.requestPriority || 0;
+      const priorityB = b.requestPriority || 0;
 
-      // sort by priority first
-      if (priorityA !== priorityB) {
-        return priorityA - priorityB;
-      }
-      // if priorities are equal, sort by requestPriority
-      return b.requestPriority - a.requestPriority;
+      return priorityB - priorityA;
     });
-  }
-
-
-
-  // Updates the request priority for a specific request and then sorts the requests based on priority
-  updateRequestPriority(request: Request, priority: number) {
-    request.requestPriority = priority;
-    this.sortRequests();
   }
 }

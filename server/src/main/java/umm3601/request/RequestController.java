@@ -146,6 +146,12 @@ public class RequestController {
     ctx.status(HttpStatus.CREATED);
   }
 
+  public void setRequestPriority(Context ctx) {
+    String id = ctx.pathParam("id");
+    
+    requestCollection.findOneAndUpdate(null, null)
+  }
+
   /**
    * Delete the user specified by the `id` parameter in the request.
    *
