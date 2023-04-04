@@ -2,6 +2,7 @@ package umm3601.request;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +11,8 @@ import com.mongodb.client.model.Sorts;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import com.mongodb.client.result.DeleteResult;
+
+import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.conversions.Bson;
@@ -117,11 +120,11 @@ public class RequestController {
   }
 
   private Bson constructSortingOrder(Context ctx) {
-    // Sort the results. Use the `sortby` query param (default "name")
+    // Sort the results. Use the `sortby` query param (default "priority")
     // as the field to sort by, and the query param `sortorder` (default
-    // "asc") to specify the sort order.
-    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "name");
-    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
+    // "desc") to specify the sort order.
+    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "priority");
+    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "desc");
     Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
     return sortingOrder;
   }
@@ -149,24 +152,31 @@ public class RequestController {
   }
 
   public void setPriority(Context ctx) {
-    String id = ctx.pathParam("id");
-    int priorityToSet = ctx.queryParamAsClass(PRIORITY_KEY, Integer.class)
+    String priority = ctx.queryParamAsClass(PRIORITY_KEY, String.class)
         .check(it -> it.matches(PRIORITY_REGEX), "Priority must be a number between 1 and 5 inclusive")
         .get();
-    Request request;
+    int priorityToSet = Integer.parseInt(priority);
+    String id = ctx.pathParam("id");
 
     try {
-      request = requestCollection.find(eq("_id", new ObjectId(id))).first();
+      // ctx requires an _id path parameter.
+      // We should make sure this is a real request id before continuing.
+      this.getRequest(ctx);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestResponse("The desired request id wasn't a legal Mongo Object ID.");
-    }
-    if (request == null) {
+      throw new BadRequestResponse("The desired request id wasn't a legal Mongo Object ID");
+    } catch (NotFoundResponse e) {
       throw new NotFoundResponse("The desired request was not found");
     }
 
-    requestCollection.findOneAndUpdate(
-      eq("_id", new ObjectId(id)), // The filter to find the object; in this case, its id.
-      { $set: {priority: priorityToSet} }, // The instructions to update data; in this case, set the priority
+    List<Bson> toSet = new ArrayList<>();
+    toSet.add(eq("_id", new ObjectId(id)));
+
+    toSet.add(set("priority", priorityToSet));
+
+    requestCollection.updateOne(
+        toSet.get(0), toSet.get(1)
+       // The filter to find the object; in this case, its id.
+       // The instructions to update data; in this case, set the priority
     );
   }
 

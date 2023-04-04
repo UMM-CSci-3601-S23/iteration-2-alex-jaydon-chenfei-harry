@@ -9,14 +9,11 @@ import { Request } from '../request';
 export class RequestCardComponent /*implements OnInit*/ {
 [x: string]: any;
 
+  @Input() viewExpanded: boolean;
   @Input() request: Request;
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
   priority: number;
-  }
-
-
-  @Input() viewExpanded: boolean;
 
   expandView(): void {
     this.viewExpanded = !this.viewExpanded;
