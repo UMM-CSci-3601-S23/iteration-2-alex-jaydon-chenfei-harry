@@ -85,6 +85,8 @@ public class Server {
 
     server.post("/api/requests/new", requestController::addNewRequest);
 
+    server.post("/api/requests/set-priority/{id}", requestController::setPriority);
+
     //Deleting requests
     server.delete("/api/requests/{id}]", requestController::deleteRequest);
 
