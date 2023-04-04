@@ -31,6 +31,9 @@ public class RequestController {
   static final String SORT_ORDER_KEY = "sortorder";
   static final String PRIORITY_KEY = "priority";
 
+  static final int LOWER_PRIORITY_BOUND = 1;
+  static final int UPPER_PRIORITY_BOUND = 5;
+
   private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other|FOOD)$";
   private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetable)$";
 
@@ -151,8 +154,10 @@ public class RequestController {
 
   public void setPriority(Context ctx) {
     Integer priority = ctx.queryParamAsClass(PRIORITY_KEY, Integer.class)
-        // .check() calls to queryParamAsClass in JUnit testing require passing the params as a validator (see Spec line 332)
-        .check(it -> it >= 1 && it <= 5, "Priority must be a number between 1 and 5 inclusive")
+        // .check() calls to queryParamAsClass in JUnit testing require passing the params
+        // as a validator (see Spec line 332)
+        .check(it -> it >= LOWER_PRIORITY_BOUND && it <= UPPER_PRIORITY_BOUND,
+          "Priority must be a number between 1 and 5 inclusive")
         .get();
     String id = ctx.pathParam("id");
 
@@ -176,7 +181,8 @@ public class RequestController {
        // The filter to find the object; in this case, its id.
        // The instructions to update data; in this case, set the priority
     );
-    // TODO: Look into passing the full request that was updated into the JSON (or the JSON of this.getRequest() somehow??)
+    // Look into passing the full request that was updated
+    // into the JSON (or the JSON of this.getRequest() somehow??)
     ctx.json(Map.of("priority", priority));
     ctx.status(HttpStatus.OK);
   }
