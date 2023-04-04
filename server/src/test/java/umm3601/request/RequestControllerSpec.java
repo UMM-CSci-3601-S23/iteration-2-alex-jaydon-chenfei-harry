@@ -3,6 +3,7 @@ package umm3601.request;
 
 
 import static com.mongodb.client.model.Filters.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -329,16 +330,23 @@ class RequestControllerSpec {
   void setPriorityOfGivenRequest() {
     String id = samsId.toHexString();
     when(ctx.pathParam("id")).thenReturn(id);
+    Validator<Integer> validator = Validator.create(Integer.class, "3", RequestController.PRIORITY_KEY);
+    when(ctx.queryParamAsClass(RequestController.PRIORITY_KEY, Integer.class))
+      .thenReturn(validator);
+    /*when(ctx.bodyValidator(Integer.class))
+      .then(priority -> new BodyValidator<Integer>("3", Integer.class, javalinJackson));*/
 
-    requestController.getRequest(ctx);
+    requestController.setPriority(ctx);
+    verify(ctx).json(mapCaptor.capture());
+    verify(ctx, times(2)).status(HttpStatus.OK);
 
-    verify(ctx).json(requestCaptor.capture());
-    verify(ctx).status(HttpStatus.OK);
-    assertEquals("food", requestCaptor.getValue().itemType);
-    assertEquals(samsId.toHexString(), requestCaptor.getValue()._id);
+    requestController.setPriority(ctx);
 
-    // TODO: Finish writing this test
+    //Verify that the correct priority was assigned
+    assertEquals(3, mapCaptor.getValue().get("priority"));
   }
+
+  // TODO: Add test for invalid priority
 
   @Test
   void addNullFoodTypeRequest() throws IOException {

@@ -151,10 +151,10 @@ public class RequestController {
   }
 
   public void setPriority(Context ctx) {
-    String priority = ctx.queryParamAsClass(PRIORITY_KEY, String.class)
-        .check(it -> it.matches(PRIORITY_REGEX), "Priority must be a number between 1 and 5 inclusive")
+    Integer priority = ctx.queryParamAsClass(PRIORITY_KEY, Integer.class)
+        // .check() calls to queryParamAsClass in JUnit testing require passing the params as a validator (see Spec line 332)
+        .check(it -> it >= 1 && it <= 5, "Priority must be a number between 1 and 5 inclusive")
         .get();
-    int priorityToSet = Integer.parseInt(priority);
     String id = ctx.pathParam("id");
 
     try {
@@ -168,15 +168,18 @@ public class RequestController {
     }
 
     List<Bson> toSet = new ArrayList<>();
-    toSet.add(eq("_id", new ObjectId(id)));
+    toSet.add(eq("_id", new ObjectId(id))); // filter
 
-    toSet.add(set("priority", priorityToSet));
+    toSet.add(set("priority", priority)); // update
 
     requestCollection.updateOne(
-        toSet.get(0), toSet.get(1)
+        toSet.get(0) /* filter */, toSet.get(1) /* update */
        // The filter to find the object; in this case, its id.
        // The instructions to update data; in this case, set the priority
     );
+    // TODO: Look into passing the full request that was updated into the JSON (or the JSON of this.getRequest() somehow??)
+    ctx.json(Map.of("priority", priority));
+    ctx.status(HttpStatus.OK);
   }
 
 
