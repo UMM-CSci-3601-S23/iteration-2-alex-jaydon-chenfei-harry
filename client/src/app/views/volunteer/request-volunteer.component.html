@@ -79,4 +79,26 @@
   </mat-card>
 </div>
 </div>
+<style>
+  .request-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
 
+  .request-card {
+    width: calc((100% - 2rem) / 3);
+  }
+
+  @media only screen and (max-width: 768px) {
+    .request-card {
+      width: calc((100% - 1rem) / 2);
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    .request-card {
+      width: 100%;
+    }
+  }
+</style>
