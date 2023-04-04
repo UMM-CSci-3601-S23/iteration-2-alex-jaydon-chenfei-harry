@@ -1,7 +1,9 @@
-<mat-card class="request-card">
+<mat-card class = "request-card">
+
   <mat-card-header>
     <mat-card-title class="request-card-title">{{ this.request.itemType }} </mat-card-title>
   </mat-card-header>
+
   <mat-card-content class="request-card-description" [ngClass]="{'display-full-card-view': viewExpanded}">{{ this.request.description }} </mat-card-content>
   <mat-card-footer style="font-style: italic">
     <div *ngIf="this.showName;then volunteerView else donorView"></div>
