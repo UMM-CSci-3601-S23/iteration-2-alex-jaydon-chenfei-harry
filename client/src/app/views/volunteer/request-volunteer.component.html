@@ -40,10 +40,14 @@
 <!--Card View-->
 <div class="flex-row">
   <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredRequests" >
+    <div *ngIf="filteredRequests.length > 0" class="highest-priority">
+      <app-request-card [showName]="true" [request]="filteredRequests[0]" fxFlex="1 1 280px"></app-request-card>
+    </div>
     <!-- Card grid view -->
     <div class="request-cards-container flex-row gap-10 flex-wrap">
+
       <!-- Keep [showName] as true. Volunteers need to be able to see who requested certain items. -->
-      <app-request-card [showName]="true" *ngFor="let request of serverFilteredRequests" class="volunteer-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
+      <app-request-card [showName]="true" *ngFor="let request of filteredRequests.slice(1)" class="volunteer-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
     </div>
   </div>
 </div>
