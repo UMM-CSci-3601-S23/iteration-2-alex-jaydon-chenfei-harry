@@ -27,7 +27,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   ) {}
 
   updateRequestPriority(request: Request) {
-    request.requestPriority = request.requestPriority;
+    request.priority = request.priority;
   }
   getRequestsFromServer(): void {
     this.requestService
@@ -70,8 +70,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
 
   sortRequests() {
     this.filteredRequests.sort((a, b) => {
-      const priorityA = a.requestPriority || 0;
-      const priorityB = b.requestPriority || 0;
+      const priorityA = a.priority || 0;
+      const priorityB = b.priority || 0;
       return priorityB - priorityA;
     });
 

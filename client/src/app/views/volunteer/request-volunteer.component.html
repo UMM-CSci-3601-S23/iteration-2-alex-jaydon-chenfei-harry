@@ -81,7 +81,7 @@
       <p>{{ request.description }}</p>
       <div>
         <strong>Priority:</strong>
-        <input type="number" [(ngModel)]="request.requestPriority" (ngModelChange)="updateRequestPriority(request)" min="1" max="5">
+        <input type="number" [(ngModel)]="request.priority" (ngModelChange)="updateRequestPriority(request)" min="1" max="5">
       </div>
     </mat-card-content>
   </mat-card>
