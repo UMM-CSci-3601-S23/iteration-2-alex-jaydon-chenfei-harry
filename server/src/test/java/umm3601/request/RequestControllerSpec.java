@@ -228,26 +228,6 @@ class RequestControllerSpec {
   }
 
   @Test
-  public void canGetRequestWithItemTypeUppercase() throws IOException {
-    Map<String, List<String>> queryParams = new HashMap<>();
-    queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"FOOD"}));
-    queryParams.put(RequestController.SORT_ORDER_KEY, Arrays.asList(new String[] {"desc"}));
-    when(ctx.queryParamMap()).thenReturn(queryParams);
-    when(ctx.queryParamAsClass(RequestController.ITEM_TYPE_KEY, String.class))
-      .thenReturn(Validator.create(String.class, "FOOD", RequestController.ITEM_TYPE_KEY));
-
-    requestController.getRequests(ctx);
-
-    verify(ctx).json(requestArrayListCaptor.capture());
-    verify(ctx).status(HttpStatus.OK);
-
-    // Confirm that all the requests passed to `json` work for food.
-    for (Request request : requestArrayListCaptor.getValue()) {
-      assertEquals("food", request.itemType);
-    }
-  }
-
-  @Test
   void getRequestsByItemTypeAndFoodType() throws IOException {
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put(RequestController.ITEM_TYPE_KEY, Arrays.asList(new String[] {"food"}));

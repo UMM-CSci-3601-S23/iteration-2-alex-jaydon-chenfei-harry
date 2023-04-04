@@ -1,0 +1,13 @@
+.request-cards-container {
+  padding-top: 15px;
+}
+
+app-request-card {
+  padding: 10px;
+  max-width: 300px;
+  min-width: 300px;
+  request-card-content {
+    min-height: 200px;
+  }
+}
+
