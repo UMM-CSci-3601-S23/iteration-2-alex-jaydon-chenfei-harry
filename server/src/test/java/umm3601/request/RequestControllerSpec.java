@@ -346,7 +346,31 @@ class RequestControllerSpec {
     assertEquals(3, mapCaptor.getValue().get("priority"));
   }
 
-  // TODO: Add test for invalid priority
+  @Test
+  void setInvalidPriorityTooHigh() {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+    Validator<Integer> validator = Validator.create(Integer.class, "6", RequestController.PRIORITY_KEY);
+    when(ctx.queryParamAsClass(RequestController.PRIORITY_KEY, Integer.class))
+      .thenReturn(validator);
+
+    assertThrows(ValidationException.class, () -> {
+      requestController.setPriority(ctx);
+    });
+  }
+
+  @Test
+  void setInvalidPriorityTooLow() {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+    Validator<Integer> validator = Validator.create(Integer.class, "0", RequestController.PRIORITY_KEY);
+    when(ctx.queryParamAsClass(RequestController.PRIORITY_KEY, Integer.class))
+      .thenReturn(validator);
+
+    assertThrows(ValidationException.class, () -> {
+      requestController.setPriority(ctx);
+    });
+  }
 
   @Test
   void addNullFoodTypeRequest() throws IOException {
