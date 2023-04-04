@@ -7,6 +7,13 @@
         </mat-card-title>
       </mat-card-header>
     <mat-card-content>
+      <div>
+        <mat-form-field class="input-field">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name"
+          required data-test="clientNameInput" placeholder="Ex.Alex">
+        </mat-form-field>
+      </div>
     <div class = "drop-downs">
       <mat-form-field>
         <mat-label>Item Category</mat-label>

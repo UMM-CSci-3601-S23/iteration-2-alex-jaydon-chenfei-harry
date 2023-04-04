@@ -6,8 +6,11 @@ export class RequestDonorPage {
   private readonly requestItemTypeDropDown = '[data-test=requestItemTypeSelect]';
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
   private readonly dropdownOptionSelector = `mat-option`;
-  private readonly requestListItemSelector = '.donor-nav-list .donor-list-item';
-  private readonly button = '[data-test=backtoHomepageButton]';
+  private readonly requestListItemSelector = '.donor-request-card';
+  private readonly requestDescriptionSelection = '.request-card-description';
+  private readonly button1 = '[data-test=backtoHomepageButton]';
+  private readonly button2 = '[data-test=expandViewButton]';
+
 
   navigateTo() {
     return cy.visit(this.baseUrl);
@@ -22,7 +25,15 @@ export class RequestDonorPage {
   }
 
   backtoHomepageButton(){
-    return cy.get(this.button);
+    return cy.get(this.button1);
+  }
+
+  expandViewButton(){
+    return cy.get(this.button2) ;
+  }
+
+  getRequestDescriptions(){
+    return cy.get(this.requestDescriptionSelection);
   }
 
   selectItemType(value: ItemType) {

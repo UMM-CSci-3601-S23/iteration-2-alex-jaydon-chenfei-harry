@@ -1,9 +1,15 @@
-.priority-badge {
-  background-color: #4d3f3c;
-  color: #571a1a;
-  padding: 2px 6px;
-  border-radius: 70%;
-  font-size: 0.8em;
-  font-weight: bold;
-}
 
+.mat-mdc-card-content {
+  height: 25px;
+  color: grey;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+
+}
+.display-full-card-view {
+  height: auto;
+  white-space: normal;
+  text-overflow: clip;
+}

@@ -43,7 +43,9 @@
     <!-- Card grid view -->
     <div class="request-cards-container flex-row gap-10 flex-wrap">
       <!-- Keep [showName] as false. Donors will see the cards as being requested by Anonymous users. -->
-      <app-request-card [showName]="false" *ngFor="let request of serverFilteredRequests" class="request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
+
+      <app-request-card [showName]="false" *ngFor="let request of serverFilteredRequests" class="donor-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
+
     </div>
   </div>
 </div>

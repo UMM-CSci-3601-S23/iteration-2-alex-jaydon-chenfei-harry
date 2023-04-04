@@ -16,6 +16,8 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public serverFilteredRequests: Request[];
   public filteredRequests: Request[];
 
+
+  public requestName: string; // The name of the REQUESTER, not the request
   public requestItemType: ItemType;
   public requestDescription: string;
   public requestFoodType: FoodType;
@@ -27,6 +29,9 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   //Gets the requests from the server with the correct filters
   getRequestsFromServer(): void {
     this.requestService.getRequests({
+
+      name: this.requestName,
+
       itemType: this.requestItemType,
       foodType: this.requestFoodType
     }).pipe(

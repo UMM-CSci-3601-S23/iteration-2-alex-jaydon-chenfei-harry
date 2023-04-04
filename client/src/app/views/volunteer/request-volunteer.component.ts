@@ -4,12 +4,15 @@ import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from '../../requests/request';
 import { RequestService } from '../../requests/request.service';
 
+
+
 @Component({
   selector: 'app-request-volunteer',
   templateUrl: './request-volunteer.component.html',
   styleUrls: ['./request-volunteer.component.scss'],
   providers: []
 })
+
 export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public serverFilteredRequests: Request[];
   public filteredRequests: Request[];
@@ -71,5 +74,6 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
       const priorityB = b.requestPriority || 0;
       return priorityB - priorityA;
     });
+
   }
 }

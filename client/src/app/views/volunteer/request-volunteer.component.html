@@ -1,5 +1,4 @@
-<div class="flex-row">
-  <div class="flex-1">
+
     <mat-card class="search-card">
       <mat-card-header>
         <mat-card-title class="donor-view-title">Needs requested</mat-card-title>
@@ -41,11 +40,13 @@
     <!-- Other requests -->
     <div class="request-cards-container flex-row gap-10 flex-wrap">
       <app-request-card [showName]="true" *ngFor="let request of filteredRequests.slice(1)" class="request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
+
     </div>
   </div>
 </div>
 
 <div>
+
   <button mat-raised-button color="primary" routerLink="">Back to Homepage</button>
 </div>
 <br>
@@ -92,6 +93,7 @@
     }
   }
 </style>
+
 
 
 
