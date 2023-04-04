@@ -326,6 +326,21 @@ class RequestControllerSpec {
   }
 
   @Test
+  void setPriorityOfGivenRequest() {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+
+    requestController.getRequest(ctx);
+
+    verify(ctx).json(requestCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+    assertEquals("food", requestCaptor.getValue().itemType);
+    assertEquals(samsId.toHexString(), requestCaptor.getValue()._id);
+
+    // TODO: Finish writing this test
+  }
+
+  @Test
   void addNullFoodTypeRequest() throws IOException {
     String testNewRequest = "{"
     + "\"itemType\": \"notRight\""
