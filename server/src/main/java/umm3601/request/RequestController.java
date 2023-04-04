@@ -27,9 +27,11 @@ public class RequestController {
   static final String ITEM_TYPE_KEY = "itemType";
   static final String FOOD_TYPE_KEY = "foodType";
   static final String SORT_ORDER_KEY = "sortorder";
+  static final String PRIORITY_KEY = "priority";
 
   private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other|FOOD)$";
   private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetable)$";
+  private static final String PRIORITY_REGEX = "^(|1|2|3|4|5)$";
 
   private final JacksonMongoCollection<Request> requestCollection;
 
@@ -145,6 +147,30 @@ public class RequestController {
     // for a description of the various response codes.
     ctx.status(HttpStatus.CREATED);
   }
+
+  public void setPriority(Context ctx) {
+    String id = ctx.pathParam("id");
+    int priorityToSet = ctx.queryParamAsClass(PRIORITY_KEY, Integer.class)
+        .check(it -> it.matches(PRIORITY_REGEX), "Priority must be a number between 1 and 5 inclusive")
+        .get();
+    Request request;
+
+    try {
+      request = requestCollection.find(eq("_id", new ObjectId(id))).first();
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestResponse("The desired request id wasn't a legal Mongo Object ID.");
+    }
+    if (request == null) {
+      throw new NotFoundResponse("The desired request was not found");
+    }
+
+    requestCollection.findOneAndUpdate(
+      eq("_id", new ObjectId(id)), // The filter to find the object; in this case, its id.
+      { $set: {priority: priorityToSet} }, // The instructions to update data; in this case, set the priority
+    );
+  }
+
+
 
   /**
    * Delete the user specified by the `id` parameter in the request.
