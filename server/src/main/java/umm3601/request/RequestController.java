@@ -33,7 +33,6 @@ public class RequestController {
 
   private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other|FOOD)$";
   private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetable)$";
-  private static final String PRIORITY_REGEX = "^(|1|2|3|4|5)$";
 
   private final JacksonMongoCollection<Request> requestCollection;
 
