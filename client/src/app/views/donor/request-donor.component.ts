@@ -4,7 +4,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from '../../requests/request';
 import { RequestService } from '../../requests/request.service';
 
-
 @Component({
   selector: 'app-request-donor',
   templateUrl: './request-donor.component.html',
@@ -14,24 +13,17 @@ import { RequestService } from '../../requests/request.service';
 
 export class RequestDonorComponent implements OnInit, OnDestroy {
   public serverFilteredRequests: Request[];
-  public filteredRequests: Request[];
+  public sortedRequests: Request[];
 
-
-  public requestName: string; // The name of the REQUESTER, not the request
   public requestItemType: ItemType;
-  public requestDescription: string;
   public requestFoodType: FoodType;
-
   private ngUnsubscribe = new Subject<void>();
 
   constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
   }
-  //Gets the requests from the server with the correct filters
+
   getRequestsFromServer(): void {
     this.requestService.getRequests({
-
-      name: this.requestName,
-
       itemType: this.requestItemType,
       foodType: this.requestFoodType
     }).pipe(
@@ -39,6 +31,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (returnedRequests) => {
         this.serverFilteredRequests = returnedRequests;
+        this.sortRequests();
       },
 
       error: (err) => {
@@ -55,12 +48,17 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
       },
     });
   }
-  //
-  public updateFilter(): void {
-    this.filteredRequests = this.serverFilteredRequests;
+
+  sortRequests() {
+    this.sortedRequests = [...this.serverFilteredRequests].sort((a, b) => {
+      const priorityA = a.priority || 0;
+      const priorityB = b.priority || 0;
+      return priorityB - priorityA;
+    });
   }
+
   ngOnInit(): void {
-      this.getRequestsFromServer();
+    this.getRequestsFromServer();
   }
 
   ngOnDestroy(): void {

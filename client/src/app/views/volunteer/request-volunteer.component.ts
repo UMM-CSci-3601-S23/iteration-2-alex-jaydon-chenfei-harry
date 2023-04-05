@@ -20,6 +20,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   public requestDescription: string;
   public requestFoodType: FoodType;
   private ngUnsubscribe = new Subject<void>();
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public sortedRequests: Request[];
 
   constructor(
     private requestService: RequestService,
@@ -59,6 +61,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     this.sortRequests();
   }
 
+
   ngOnInit(): void {
     this.getRequestsFromServer();
   }
@@ -69,11 +72,19 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   }
 
   sortRequests() {
-    this.filteredRequests.sort((a, b) => {
+    this.sortedRequests = this.filteredRequests.sort((a, b) => {
       const priorityA = a.priority || 0;
       const priorityB = b.priority || 0;
       return priorityB - priorityA;
     });
+    this.sendSortedRequests(); // Call sendSortedRequests after sorting
+  }
 
+  sendSortedRequests(): void {
+    this.requestService.sendSortedRequests(this.sortedRequests).subscribe(() => {
+      console.log('Sorted requests sent to the server');
+    }, error => {
+      console.error('Error sending sorted requests:', error);
+    });
   }
 }

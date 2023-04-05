@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Request, ItemType, FoodType } from './request';
 import { map } from 'rxjs/operators';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -45,4 +46,11 @@ export class RequestService {
     // Send post request to add a new Request with the Request data as the body.
     return this.httpClient.post<{id: string}>(this.newRequestUrl, newRequest).pipe(map(res => res.id));
   }
+  sendSortedRequests(requests: Request[]): Observable<void> {
+    const requestOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.httpClient.put<void>(`${this.requestUrl}/sorted`, requests, requestOptions);
+  }
+
 }
