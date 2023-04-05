@@ -6,11 +6,13 @@ export class RequestVolunteerPage {
   private readonly pageTitle = '.volunteer-view-title';
   private readonly requestItemTypeDropDown = '[data-test=requestItemTypeSelect]';
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
+  private readonly requestPriorityInput = '[data-test=requestPriorityInput]';
   private readonly dropdownOptionSelector = `mat-option`;
   private readonly requestListItemSelector = '.volunteer-request-card';
   private readonly requestDescriptionSelection = '.request-card-description';
   private readonly button1 = '[data-test=backtoHomepageButton]';
   private readonly button2 = '[data-test=expandViewButton]';
+  private readonly button3 = '[data-test=sortbyPriorityButton]';
 
   navigateTo() {
     return cy.visit(this.baseUrl);
@@ -31,6 +33,10 @@ export class RequestVolunteerPage {
     return cy.get(this.button2) ;
   }
 
+  sortbyPriorityButton(){
+    return cy.get(this.button3) ;
+  }
+
   getRequestDescriptions(){
     return cy.get(this.requestDescriptionSelection);
   }
@@ -44,4 +50,9 @@ export class RequestVolunteerPage {
     cy.get(this.requestFoodTypeDropDown).click();
     return cy.get(`${this.dropdownOptionSelector}[value="${value}"]`).click();
   }
+
+  enterPriorityInput(value: number) {
+    return cy.get(this.requestPriorityInput);
+  }
+
 }

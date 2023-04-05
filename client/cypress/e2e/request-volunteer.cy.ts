@@ -81,7 +81,7 @@ describe('Volunteer View', () => {
 
   //Tests with the button *EXPAND*
   it('Should return the correct elements before and after clicking the button *EXPAND*', () => {
-    //Some issues with the test
+
     page.selectItemType('food');
     page.selectFoodType('vegetable');
 
@@ -100,5 +100,14 @@ describe('Volunteer View', () => {
       const description = $el.text();
       expect(description.length).to.be.at.least(maxLength);
     });
+  });
+
+  //Tests with the functionality of priority
+  it('Should return the correct elements before and after clicking the button *SORT BY PRIORITY*', () => {
+    page.selectItemType('food');
+    page.selectFoodType('vegetable');
+
+    page.getRequestListItems().should('have.length', 1);
+
   });
 });

@@ -62,7 +62,7 @@
 <br>
 <br>
 <div>
-  <button mat-raised-button color="primary" (click)="sortRequests()">Sort by priority</button>
+  <button mat-raised-button color="primary" data-test="sortbyPriorityButton" (click)="sortRequests()">Sort by priority</button>
 </div>
 
 <div class="request-cards flex-row gap-10 flex-wrap">
@@ -75,7 +75,8 @@
       <p>{{ request.description }}</p>
       <div>
         <strong>Priority:</strong>
-        <input #box type="number" id="priority-input-field" [(ngModel)]="request.priority" (input)="updateRequestPriority(request, box.value)" min="1" max="5">
+        <input #box type="number" id="priority-input-field" [(ngModel)]="request.priority" (input)="updateRequestPriority(request, box.value)"
+        min="1" max="5" data-test="requestPriorityInput">
       </div>
     </mat-card-content>
   </mat-card>
