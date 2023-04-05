@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from '../../requests/request';
@@ -28,8 +28,8 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar
   ) {}
 
-  updateRequestPriority(request: Request) {
-    request.priority = request.priority;
+  updateRequestPriority(request: Request, priority: string) {
+    this.requestService.addRequestPriority(request, priority);
   }
   getRequestsFromServer(): void {
     this.requestService

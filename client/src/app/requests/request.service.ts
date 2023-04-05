@@ -48,9 +48,19 @@ export class RequestService {
   }
   sendSortedRequests(requests: Request[]): Observable<void> {
     const requestOptions = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      // I am not really sure why this is necessary? Ask Harry what is going on here.
     };
     return this.httpClient.put<void>(`${this.requestUrl}/sorted`, requests, requestOptions);
+  }
+  addRequestPriority(request: Request, priority: string): Observable<string> {
+    // Send a POST request to change the priority of a Request object.
+    // Requires a Request object that contains an _id field, as well as a priority value!
+    const postUrl = `${this.requestUrl}/set-priority/${request._id}`;
+    console.log(postUrl);
+    const debug = this.httpClient.post<{id: string}>(postUrl, priority);
+    return debug.pipe(map(res => res.id));
   }
 
 }

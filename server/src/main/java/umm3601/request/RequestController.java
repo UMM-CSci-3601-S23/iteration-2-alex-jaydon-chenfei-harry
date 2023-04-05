@@ -77,6 +77,7 @@ public class RequestController {
    * @param ctx a Javalin HTTP context
    */
   public void getRequests(Context ctx) {
+    System.out.println("getRequests() called");
     Bson combinedFilter = constructFilter(ctx);
     Bson sortingOrder = constructSortingOrder(ctx);
 
@@ -153,6 +154,7 @@ public class RequestController {
   }
 
   public void setPriority(Context ctx) {
+    System.out.println("setPriority called on the server");
     Integer priority = ctx.queryParamAsClass(PRIORITY_KEY, Integer.class)
         // .check() calls to queryParamAsClass in JUnit testing require passing the params
         // as a validator (see Spec line 332)
