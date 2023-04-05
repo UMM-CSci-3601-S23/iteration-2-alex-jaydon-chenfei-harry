@@ -79,4 +79,26 @@ describe('Volunteer View', () => {
     });
   });
 
+  //Tests with the button *EXPAND*
+  it('Should return the correct elements before and after clicking the button *EXPAND*', () => {
+    //Some issues with the test
+    page.selectItemType('food');
+    page.selectFoodType('vegetable');
+
+    page.getRequestListItems().should('have.length', 1);
+
+    page.getRequestDescriptions().each(($el) => {
+      const maxLength = 42;
+      const description = $el.text().slice(0, maxLength);
+      expect(description.length).to.be.at.least(5);
+    });
+
+    page.expandViewButton().click();
+
+    page.getRequestDescriptions().each(($el) => {
+      const maxLength = 42;
+      const description = $el.text();
+      expect(description.length).to.be.at.least(maxLength);
+    });
+  });
 });

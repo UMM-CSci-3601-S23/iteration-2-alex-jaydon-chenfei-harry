@@ -95,8 +95,9 @@ describe('Donor View', () => {
     page.expandViewButton().click();
 
     page.getRequestDescriptions().each(($el) => {
+      const maxLength = 42;
       const description = $el.text();
-      expect(description.length).to.be.at.least(5);
+      expect(description.length).to.be.at.least(maxLength);
     });
   });
 });
