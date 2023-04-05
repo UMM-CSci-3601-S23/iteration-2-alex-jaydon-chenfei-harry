@@ -65,7 +65,7 @@
   <button mat-raised-button color="primary" (click)="sortRequests()">Sort by priority</button>
 </div>
 
-<div class="request-cards">
+<div class="request-cards flex-row gap-10 flex-wrap">
   <mat-card *ngFor="let request of filteredRequests" class="request-card">
     <mat-card-header>
       <mat-card-title>{{ request.itemType }}</mat-card-title>

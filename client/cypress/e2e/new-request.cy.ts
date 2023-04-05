@@ -76,6 +76,8 @@ describe('Add request', () => {
 
     it('Should go to the right page, and have the right info', () => {
       const request: Request = {
+        id: null,
+        requestPriority: 3,
         _id: null,
         itemType: 'food',
         foodType: 'meat',
