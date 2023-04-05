@@ -1,4 +1,6 @@
-<div class="flex-row">
+
+
+  <div class="flex-row">
   <div class="flex-1">
     <!--Filters-->
     <mat-card class="search-card">
@@ -35,8 +37,9 @@
     </mat-card-content>
     </mat-card>
   </div>
-</div>
+  </div>
 
+<<<<<<< Updated upstream:client/src/app/views/donor/request-donor.component.html
 <!--Card View-->
 <div class="flex-row">
   <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredRequests" >
@@ -45,9 +48,29 @@
       <!-- Keep [showName] as false. Donors will see the cards as being requested by Anonymous users. -->
       <app-request-card [showName]="false" *ngFor="let request of serverFilteredRequests" class="donor-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
     </div>
+=======
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="request-card-title">{{ this.requestItemType }}</mat-card-title>
+  </mat-card-header>
+<!--List View-->
+  <div class="flex-row">
+  <div class="flex-1" *ngIf="serverFilteredRequests; else requestsError">
+    <mat-card-content>
+      <mat-nav-list class="donor-nav-list">
+        <h3 mat-subheader>Requests</h3>
+        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/donor', request._id]" class="donor-list-item">
+          <span matListItemTitle class="donor-list-itemType">Item Type: {{request.itemType}}</span>
+          <span matListItemLine class="donor-list-foodType">Food Type: {{request.foodType}}</span>
+          <span matListItemBody class="donor-list-description">{{request.description}}</span>
+        </a>
+      </mat-nav-list>
+    </mat-card-content>
+>>>>>>> Stashed changes:client/src/app/requests/request-donor.component.html
   </div>
 </div>
 
+<<<<<<< Updated upstream:client/src/app/views/donor/request-donor.component.html
 <div>
   <button
   mat-raised-button
@@ -59,3 +82,22 @@
 </button>
 </div>
 
+=======
+  <ng-template #requestsError>
+    <div class="flex-1" class="requests-error">
+      <mat-error>
+        There was a problem loading the requests. The server may be down or there are
+        network issues.
+      </mat-error>
+      <mat-error>
+        Please wait a bit and try again or start the server.
+      </mat-error>
+    </div>
+  </ng-template>
+  </div>
+
+  <mat-card-footer>
+    <mat-card-actions class="request-card-name" *ngIf="!this.requestFoodType"></mat-card-actions>
+  </mat-card-footer>
+</mat-card>
+>>>>>>> Stashed changes:client/src/app/requests/request-donor.component.html
