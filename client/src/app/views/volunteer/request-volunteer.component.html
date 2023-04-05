@@ -34,12 +34,6 @@
 
     </mat-card-content>
     </mat-card>
-<div class="flex-row">
-  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredRequests">
-    <!-- Highest priority request -->
-    <div *ngIf="filteredRequests.length > 0" class="highest-priority">
-      <app-request-card [showName]="true" [request]="filteredRequests[0]" fxFlex="1 1 280px"></app-request-card>
-    </div>
 
 <!--Card View-->
 <div class="flex-row">
