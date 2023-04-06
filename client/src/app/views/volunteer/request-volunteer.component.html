@@ -43,7 +43,7 @@
     <!-- Card grid view -->
     <div class="request-cards-container flex-row gap-10 flex-wrap">
       <!-- Keep [showName] as true. Volunteers need to be able to see who requested certain items. -->
-      <app-request-card [showName]="true" *ngFor="let request of serverFilteredRequests" class="volunteer-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
+        <app-request-card [showName]="true" *ngFor="let request of serverFilteredRequests" class="volunteer-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
     </div>
   </div>
 </div>
@@ -53,7 +53,7 @@
   mat-raised-button
   color="primary"
   routerLink=""
-  data-test="backtoHomepageButton"
+  data-test="backToHomepageButton"
   >
   Back to Homepage
 </button>

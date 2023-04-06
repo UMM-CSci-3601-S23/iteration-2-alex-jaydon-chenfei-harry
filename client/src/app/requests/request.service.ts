@@ -12,6 +12,7 @@ export class RequestService {
   // The URL for the requests part of the server API
   readonly requestUrl: string = `${environment.apiUrl}requests`;
   readonly newRequestUrl: string = `${environment.apiUrl}requests/new`;
+  readonly updatedCardUrl: string = `${environment.apiUrl}requests/edit/`;
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
@@ -44,5 +45,12 @@ export class RequestService {
   addRequest(newRequest: Partial<Request>): Observable<string> {
     // Send post request to add a new Request with the Request data as the body.
     return this.httpClient.post<{id: string}>(this.newRequestUrl, newRequest).pipe(map(res => res.id));
+  }
+
+  updateCard(updatedCard: Partial<Request>, _id: string ): Observable<string> {
+    return this.httpClient.put<{id: string}>(this.updatedCardUrl + _id, updatedCard).pipe(map(res => {
+      console.log(res);
+      return res.id;
+    }));
   }
 }

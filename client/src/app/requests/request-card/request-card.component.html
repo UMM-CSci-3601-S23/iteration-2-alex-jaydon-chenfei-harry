@@ -8,9 +8,10 @@
     <div *ngIf="this.showName;then volunteerView else donorView"></div>
     <ng-template #volunteerView>
       <mat-card-actions #volunteerView class="request-card-name">Requested by {{ this.request.name }}</mat-card-actions>
+      <button mat-raised-button color="primary" [routerLink]="['/edit-card', this.request._id]">Edit</button>
     </ng-template>
     <ng-template #donorView>
       <mat-card-actions #donorView class="request-card-name">Requested by Anonymous</mat-card-actions>
     </ng-template>
   </mat-card-footer>
-</mat-card>
+

@@ -1,16 +1,27 @@
 import { Component, Input, /*OnInit*/ } from '@angular/core';
 import { Request } from '../request';
+import { Router } from '@angular/router';
+import { RequestService } from '../request.service';
 
 @Component({
   selector: 'app-request-card',
   templateUrl: './request-card.component.html',
   styleUrls: ['./request-card.component.scss']
 })
+
 export class RequestCardComponent /*implements OnInit*/ {
 
   @Input() request: Request;
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
+
+  isEditMode = false;
+
+  constructor(
+    private router: Router,
+    private requestService: RequestService,
+    ) {}
+
 
   // THIS CODE MAY NOT BE NECESSARY. --Jaydon
   /*protected condensedRequestBody: string;
@@ -28,4 +39,5 @@ export class RequestCardComponent /*implements OnInit*/ {
     this.condenseRequestBody();
   }*/
 
-}
+ }
+
