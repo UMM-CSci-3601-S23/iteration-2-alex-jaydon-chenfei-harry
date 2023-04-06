@@ -25,12 +25,13 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
 
   constructor(
     private requestService: RequestService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+  ){}
 
   updateRequestPriority(request: Request, priority: string) {
     this.requestService.addRequestPriority(request, priority);
   }
+
   getRequestsFromServer(): void {
     this.requestService
       .getRequests({
@@ -58,12 +59,16 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
 
   public updateFilter(): void {
     this.filteredRequests = [...this.serverFilteredRequests];
-    this.sortRequests();
+    //this.sortRequests();
   }
 
 
   ngOnInit(): void {
     this.getRequestsFromServer();
+    /*var priority = this.requestService.get('priority');
+    if('priority'){
+      this.
+    }*/
   }
 
   ngOnDestroy(): void {
@@ -71,7 +76,7 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  sortRequests() {
+  /*sortRequests() {
     this.sortedRequests = this.filteredRequests.sort((a, b) => {
       const priorityA = a.priority || 0;
       const priorityB = b.priority || 0;
@@ -86,5 +91,5 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
     }, error => {
       console.error('Error sending sorted requests:', error);
     });
-  }
+  }*/
 }

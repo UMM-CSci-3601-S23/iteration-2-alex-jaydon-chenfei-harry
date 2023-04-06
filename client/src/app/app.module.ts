@@ -31,6 +31,7 @@ import { RequestVolunteerComponent } from './views/volunteer/request-volunteer.c
 import { NewRequestComponent } from './new-request/new-request.component';
 import { RequestCardComponent } from './requests/request-card/request-card.component';
 import { RequestEditComponent } from './requests/request-edit/request-edit/request-edit.component';
+import { DonorInfoComponent } from './views/donor/donor-info/donor-info.component';
 
 
 const MATERIAL_MODULES: any[] = [
@@ -61,6 +62,7 @@ const MATERIAL_MODULES: any[] = [
     RequestVolunteerComponent,
     RequestCardComponent,
     RequestEditComponent,
+    DonorInfoComponent
   ],
   imports: [
     BrowserModule,

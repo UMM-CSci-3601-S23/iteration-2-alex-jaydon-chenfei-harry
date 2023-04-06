@@ -39,16 +39,11 @@
 
 <!--Card View-->
 <div class="flex-row">
-  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredRequests" >
+  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="sortedRequests?.length > 0">
     <!-- Card grid view -->
     <div class="request-cards-container flex-row gap-10 flex-wrap">
-      <!-- Keep [showName] as false. Donors will see the cards as being requested by Anonymous users. -->
-      <div class="sorted-requests">
-        <mat-card *ngFor="let request of sortedRequests" class="request-card">
-          <!-- Display request data here -->
-        </mat-card>
-      </div>
-      <app-request-card [showName]="false" *ngFor="let request of serverFilteredRequests" class="donor-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
+      <app-request-card [showName]="false" *ngFor="let request of sortedRequests" class="donor-request-card" [request]="request" fxFlex="1 1 280px">
+      </app-request-card>
     </div>
   </div>
 </div>

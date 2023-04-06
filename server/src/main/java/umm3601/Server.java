@@ -17,7 +17,7 @@ import umm3601.request.RequestController;
 
 public class Server {
 
-  private static final int SERVER_PORT = 4559;
+  private static final int SERVER_PORT = 4562;
 
   public static void main(String[] args) {
 
@@ -85,7 +85,7 @@ public class Server {
 
     server.post("/api/requests/new", requestController::addNewRequest);
 
-    server.post("/api/requests/set-priority/{id}", requestController::setPriority);
+    server.put("/api/requests/set-priority/{id}", requestController::setPriority);
 
     //Deleting requests
     server.delete("/api/requests/{id}]", requestController::deleteRequest);

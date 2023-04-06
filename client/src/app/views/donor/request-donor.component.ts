@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from '../../requests/request';
 import { RequestService } from '../../requests/request.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-request-donor',
@@ -19,8 +20,11 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
   public requestFoodType: FoodType;
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
-  }
+  constructor(
+    private requestService: RequestService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   getRequestsFromServer(): void {
     this.requestService.getRequests({
@@ -33,7 +37,6 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
         this.serverFilteredRequests = returnedRequests;
         this.sortRequests();
       },
-
       error: (err) => {
         let message = '';
         if (err.error instanceof ErrorEvent) {
@@ -41,10 +44,7 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
         } else {
           message = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
         }
-        this.snackBar.open(
-          message,
-          'OK',
-          {duration: 5000});
+        this.snackBar.open(message, 'OK', { duration: 5000 });
       },
     });
   }
@@ -57,12 +57,24 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
     });
   }
 
+  goToDonorInfo(): void {
+    this.router.navigate(['/donor-info']);
+  }
+
   ngOnInit(): void {
     this.getRequestsFromServer();
   }
 
   ngOnDestroy(): void {
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
+
+  /*sendSortedRequests(): void {
+    this.requestService.sendSortedRequests(this.sortedRequests).subscribe(() => {
+      console.log('Sorted requests sent to the server');
+    }, error => {
+      console.error('Error sending sorted requests:', error);
+    });
+  }*/
 }
