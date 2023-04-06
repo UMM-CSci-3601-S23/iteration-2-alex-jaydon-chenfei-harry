@@ -6,7 +6,6 @@ export class RequestVolunteerPage {
   private readonly pageTitle = '.volunteer-view-title';
   private readonly requestItemTypeDropDown = '[data-test=requestItemTypeSelect]';
   private readonly requestFoodTypeDropDown = '[data-test=requestFoodTypeSelect]';
-  private readonly requestPriorityInput = '[data-test=requestPriorityInput]';
   private readonly dropdownOptionSelector = `mat-option`;
   private readonly requestListItemSelector = '.volunteer-request-card';
   private readonly requestDescriptionSelection = '.request-card-description';
@@ -51,8 +50,5 @@ export class RequestVolunteerPage {
     return cy.get(`${this.dropdownOptionSelector}[value="${value}"]`).click();
   }
 
-  enterPriorityInput(value: number) {
-    return cy.get(this.requestPriorityInput);
-  }
 
 }

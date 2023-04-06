@@ -103,11 +103,46 @@ describe('Volunteer View', () => {
   });
 
   //Tests with the functionality of priority
-  it('Should return the correct elements before and after clicking the button *SORT BY PRIORITY*', () => {
-    page.selectItemType('food');
-    page.selectFoodType('vegetable');
+  it('should sort requests by priority', () => {
+    // Set priority values for each request card
+    cy.get('.priority-request-card').each(($card) => {
+      const priorityValue = getRandomInteger(1, 5);
+      cy.wrap($card).find('[data-test="requestPriorityInput"]').clear().type(priorityValue);
+    });
 
-    page.getRequestListItems().should('have.length', 1);
+    // Click on the sort button
+    page.sortbyPriorityButton().click();
 
+    // Test that the first request card has the highest priority value
+    cy.get('.priority-request-card').first().find('[data-test="requestPriorityInput"]').then(($firstCardInput) => {
+      const highestPriority = parseInt($firstCardInput.val().toString(), 10);
+
+      cy.get('.priority-request-card').each(($card) => {
+        cy.wrap($card).find('[data-test="requestPriorityInput"]').then(($input) => {
+          const currentPriority = parseInt($input.val().toString(), 10);
+          expect(currentPriority).to.be.at.most(highestPriority);
+        });
+      });
+    });
+
+    const initialCardDescriptions = [];
+
+    // Save the texts of the initial request cards
+    page.getRequestListItems().each(($card) => {
+      const description = $card.find('p').text();
+      initialCardDescriptions.push(description);
+    });
+
+    cy.get('.priority-request-card').each(($sortedCard, index) => {
+      const sortedCardDescription = $sortedCard.find('p').text();
+      expect(sortedCardDescription).to.equal(initialCardDescriptions[index]);
+    });
   });
 });
+
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+function getRandomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
