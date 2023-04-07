@@ -4,7 +4,11 @@ import { HomeComponent } from './home/home.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { RequestDonorComponent } from './views/donor/request-donor.component';
 import { RequestVolunteerComponent } from './views/volunteer/request-volunteer.component';
+
 import { EditCardComponent } from './requests/edit-card/edit-card.component';
+
+import { DonorInfoComponent } from './views/donor/donor-info/donor-info.component';
+
 
 // Note that the 'users/new' route needs to come before 'users/:id'.
 // If 'users/:id' came first, it would accidentally catch requests to
@@ -14,7 +18,10 @@ const routes: Routes = [
   {path: 'requests/donor', component: RequestDonorComponent, title: 'Donor View'},
   {path: 'requests/volunteer', component: RequestVolunteerComponent, title: 'Volunteer View'},
   {path: 'requests/client', component: NewRequestComponent, title: 'New Request'},
-  {path: 'edit-card/:id', component: EditCardComponent, title: 'Edit Card'}
+
+  {path: 'edit-card/:id', component: EditCardComponent, title: 'Edit Card'},
+  {path: 'requests/donorInfo', component: DonorInfoComponent }
+
 
 ];
 
