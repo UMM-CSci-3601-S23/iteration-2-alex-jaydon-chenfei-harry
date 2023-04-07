@@ -10,18 +10,21 @@ describe('RequestService', () => {
   const testRequests: Request[] = [
     {
       _id: '1',
+      name: 'one',
       itemType: 'food',
       description: 'I would like to be able to get some spaghetti noodles',
       foodType: 'grain'
     },
     {
       _id: '2',
+      name: 'two',
       itemType: 'toiletries',
       description: 'I need some toothpaste',
       foodType: ''
     },
     {
       _id: '3',
+      name: 'three',
       itemType: 'other',
       description: 'Would it be possible for me to get some Advil?',
       foodType: ''
