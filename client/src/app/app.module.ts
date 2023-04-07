@@ -33,7 +33,7 @@ import { RequestCardComponent } from './requests/request-card/request-card.compo
 
 import { EditCardComponent } from './requests/edit-card/edit-card.component';
 
-import { RequestEditComponent } from './requests/request-edit/request-edit/request-edit.component';
+//import { RequestEditComponent } from './requests/request-edit/request-edit/request-edit.component';
 import { DonorInfoComponent } from './views/donor/donor-info/donor-info.component';
 
 
@@ -66,7 +66,7 @@ const MATERIAL_MODULES: any[] = [
     RequestVolunteerComponent,
     RequestCardComponent,
     EditCardComponent,
-    RequestEditComponent,
+    //RequestEditComponent,
     DonorInfoComponent
   ],
   imports: [

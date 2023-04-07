@@ -19,7 +19,7 @@ const routes: Routes = [
   {path: 'requests/volunteer', component: RequestVolunteerComponent, title: 'Volunteer View'},
   {path: 'requests/client', component: NewRequestComponent, title: 'New Request'},
 
-  {path: 'edit-card/:id', component: EditCardComponent, title: 'Edit Card'}
+  {path: 'edit-card/:id', component: EditCardComponent, title: 'Edit Card'},
   {path: 'requests/donorInfo', component: DonorInfoComponent }
 
 
