@@ -15,7 +15,7 @@ export class RequestCardComponent /*implements OnInit*/ {
   @Input() request: Request;
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
-
+  priority: number;
 
   showMenu = false;
 
@@ -41,15 +41,11 @@ export class RequestCardComponent /*implements OnInit*/ {
     this.condenseRequestBody();
   }*/
 
- }
-
-  priority: number;
   expandView(): void {
     this.viewExpanded = !this.viewExpanded;
     console.log('expandView() called');
     console.log(this.request.name);
   }
-
-}
+ }
 
 
