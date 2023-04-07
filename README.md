@@ -22,6 +22,8 @@ The [resources](RESOURCES.md) document can be found here.
 
 We were not able to finish implementing the feature for donors to pledge resources requested by clients. Should your group use this code base as a starting point for iteration 3, it is *imperative* that this gets finished. Therefore, it should be one of the stories you sell, if you choose to continue the direction we had in mind for this iteration.
 
+It might also be worth looking at the project directories and making decisions about what to include in the .gitignore file to hopefully clean up what gets pushed (i.e., not having 50 million error logs or generated build reports in our branches).
+
 ## Contributors
 
 The contributors to this project can be seen [here](../../graphs/contributors).
