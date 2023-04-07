@@ -7,7 +7,6 @@
 - [About our project](#about-our-project)
 - [Notes for iteration 3](#notes-for-IT3)
 - [Contributors](#contributors)
-- [Changing the name](#changing-the-name)
 
 ### About our project
 
