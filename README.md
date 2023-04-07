@@ -5,10 +5,7 @@
 [![End to End Build Status](../../actions/workflows/e2e.yaml/badge.svg)](../../actions/workflows/e2e.yaml)
 
 - [About our project](#about-our-project)
-- [Development](#development)
-  - [Common commands](#common-commands)
-- [Deployment](#deployment)
-- [Resources](#resources)
+- [Notes for iteration 3](#notes-for-IT3)
 - [Contributors](#contributors)
 - [Changing the name](#changing-the-name)
 
@@ -18,39 +15,13 @@ Our project for the Stevens County Food Shelf is designed around the central foc
 
 The project revolves around the usage of digital "request forms," wherein clients (users who request and receive resources from the food shelf) are able to describe their exact needs in detail in order to be quickly heard by workers and donors who may be able to supply the needed resources. Resources requested from the food shelf can include various types of food (meat, vegetables, fruit, etc.), toiletries, among other things. A client submits a request form to the website, and registered volunteers and donors associated with the food shelf are able to view these request forms. Registered donors of the website have the responsibility of regularly checking these forms and promising to pledge an amount of the resource to provide to the food shelf. Volunteers keep tabs on both the forms themselves and the pledges made by donors, using their real-life knowledge of the shelf's stock in order to ensure that the needs of everyone are met.
 
-## [Development](DEVELOPMENT.md)
+The [development](DEVELOPMENT.MD) and [deployment](DEPLOYMENT.md) documents have been ommitted from this document for now, but coming back to them every now and then in the future may be useful.
 
-Instructions on setting up the development environment and working with the code are in [the development guide](DEVELOPMENT.md).
+The [resources](RESOURCES.md) document can be found here.
 
-### Common commands
+### Notes for IT3
 
-From the `server` directory:
-
-- `./gradlew run` to start the server
-- `./gradlew test` to test the server
-- `./gradlew checkstyleMain` to run Checkstyle on the server Java code in the `src/main` folder
-- `./gradlew checkstyleTest` to run Checkstyle on the server Java code in the `src/test` folder
-- `./gradlew check` will run the tests, run the Checkstyle checks, and generate coverage reports in one command
-
-From the `client` directory:
-
-- `ng serve` to run the client
-- `ng test` to test the client
-  - Or `ng test --no-watch --code-coverage` to run the client tests once and
-    also compute the code coverage.
-- `ng e2e` and `ng e2e --watch` to run end-to-end tests
-
-From the `database` directory:
-
-- `./mongoseed.sh` (or `.\mongoseed.bat` on Windows) to seed the database
-
-## [Deployment](DEPLOYMENT.md)
-
-Instructions on how to create a DigitalOcean Droplet and setup your project are in [the deployment guide](DEPLOYMENT.md).
-
-## [Resources](RESOURCES.md)
-
-Additional resources on tooling and techniques are in [the resources list](RESOURCES.md).
+We were not able to finish implementing the feature for donors to pledge resources requested by clients. Should your group use this code base as a starting point for iteration 3, it is *imperative* that this gets finished. Therefore, it should be one of the stories you sell, if you choose to continue the direction we had in mind for this iteration.
 
 ## Contributors
 
@@ -69,20 +40,3 @@ The contributors to this project can be seen [here](../../graphs/contributors).
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## Changing the name
-
-The project by default has the name "CSCI 3601 Iteration Template". There are a few places you need to change to make this the name you want:
-
-- The title in this README.md
-- [`client/src/app/app.component.ts`](client/src/app/app.component.ts)
-  - The `title` variable
-  - Also the associated unit and E2E tests will need to be changed.
-- [`client/src/app/app.component.html`](client/src/app/app.component.html)
-  - The `mat-toolbar` element for the navigation drawer is just "Client" by default.
-- [`client/src/index.html`](client/src/index.html)
-  - The `title` element
-
-You can go ahead and remove this section of the README once you have changed the name.
