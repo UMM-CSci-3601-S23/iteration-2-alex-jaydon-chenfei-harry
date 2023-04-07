@@ -1,9 +1,10 @@
-# CSCI 3601 Iteration Template <!-- omit in toc -->
+# Shelf Help going into iteration 3 <!-- omit in toc -->
 
 [![Server Build Status](../../actions/workflows/server.yml/badge.svg)](../../actions/workflows/server.yml)
 [![Client Build Status](../../actions/workflows/client.yaml/badge.svg)](../../actions/workflows/client.yaml)
 [![End to End Build Status](../../actions/workflows/e2e.yaml/badge.svg)](../../actions/workflows/e2e.yaml)
 
+- [About our project](#about-our-project)
 - [Development](#development)
   - [Common commands](#common-commands)
 - [Deployment](#deployment)
@@ -11,19 +12,11 @@
 - [Contributors](#contributors)
 - [Changing the name](#changing-the-name)
 
-This is your starter code for Iteration 1.
+### About our project
 
-There are a number of elements of this production template that you don't need
-(or even want down the road), but are provided as examples to help you get started.
-As you work on your project, you should replace some of these pieces with
-elements of your project and _remove whatever you don't need_ (e.g., markdown
-files, JSON data files, or any remnants of the labs). We include, for example,
-the `User` parts of the previous labs. These are almost certainly not relevant
-to your project and should be removed once you've started.
+Our project for the Stevens County Food Shelf is designed around the central focus of providing easy and readily-available opportunities for users of the food shelf to access the resources that they need, and for donors/volunteers of the food shelf to support the local community by being aware of its exact needs.
 
-:exclamation: You should remove this sentence and the text above, and
-replace them with at least an elevator pitch description of your project so that
-if someone comes to this repo they'll know what the project is about.
+The project revolves around the usage of digital "request forms," wherein clients (users who request and receive resources from the food shelf) are able to describe their exact needs in detail in order to be quickly heard by workers and donors who may be able to supply the needed resources. Resources requested from the food shelf can include various types of food (meat, vegetables, fruit, etc.), toiletries, among other things. A client submits a request form to the website, and registered volunteers and donors associated with the food shelf are able to view these request forms. Registered donors of the website have the responsibility of regularly checking these forms and promising to pledge an amount of the resource to provide to the food shelf. Volunteers keep tabs on both the forms themselves and the pledges made by donors, using their real-life knowledge of the shelf's stock in order to ensure that the needs of everyone are met.
 
 ## [Development](DEVELOPMENT.md)
 
