@@ -63,7 +63,7 @@
 <br>
 <div>
   <!-- (click)="sortRequests() -->
-  <button mat-raised-button color="primary" data-test="sortbyPriorityButton">Sort by priority</button>
+  <button mat-raised-button color="primary" data-test="sortbyPriorityButton" (click)="getRequestsFromServer()">Sort by priority</button>
 </div>
 
 <div class="request-cards flex-row gap-10 flex-wrap">
@@ -86,6 +86,9 @@
 <style>
   .request-cards {
     display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     flex-wrap: wrap;
     gap: 1rem;
   }

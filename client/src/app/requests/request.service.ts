@@ -14,7 +14,7 @@ export class RequestService {
   // The URL for the requests part of the server API
   readonly requestUrl: string = `${environment.apiUrl}requests`;
   readonly newRequestUrl: string = `${environment.apiUrl}requests/new`;
-  readonly updatedCardUrl: string = `${environment.apiUrl}requests/edit/`;
+  readonly priorityUrl: string = `${environment.apiUrl}requests/set-priority`;
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
@@ -74,8 +74,7 @@ export class RequestService {
     };
     return this.httpClient.put<void>(`${this.requestUrl}/sorted`, requests, requestOptions);
   }*/
-  addRequestPriority(request: Request, priority: string): Observable<string> {
-    let httpParams: HttpParams = new HttpParams();
+  addRequestPriority(request: Request, priorityGiven: string): Observable<number> {
     // Send a POST request to change the priority of a Request object.
     // Requires a Request object that contains an _id field, as well as a priority value!
 
@@ -84,12 +83,14 @@ export class RequestService {
     // A correct HTTP put request should look like this:
     // http://localhost:{serverPort}/requests/set-priority/{id}?priority={priorityNumber}
     // with the right values in the {}
-    const putUrl = `${this.requestUrl}/set-priority/${request._id}`;
-    httpParams = httpParams.set(this.priorityKey, priority);
 
-    return this.httpClient.put<{id: string}>(putUrl, {
-      params: httpParams,
-    }).pipe(map(res => res.id));
+    // PUT http://localhost:4562/api/requests/set-priority/588935f57546a2daea44de7c?priority=2
+    const putUrl = `${this.priorityUrl}/${request._id}`;
+    const priorityBody = new HttpParams().set(this.priorityKey, priorityGiven);
+
+    return this.httpClient.put<{priority: number}>(putUrl, priorityGiven, {
+      params: priorityBody,
+    }).pipe(map(res => res.priority));
   }
 
 

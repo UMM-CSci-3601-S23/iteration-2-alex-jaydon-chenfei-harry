@@ -29,7 +29,13 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   ){}
 
   updateRequestPriority(request: Request, priority: string) {
-    this.requestService.addRequestPriority(request, priority);
+    this.requestService
+      .addRequestPriority(request, priority)
+      .subscribe({
+        next: () => {
+          this.updateFilter();
+        }
+      });
   }
 
   getRequestsFromServer(): void {
