@@ -15,6 +15,7 @@ export class RequestService {
   readonly requestUrl: string = `${environment.apiUrl}requests`;
   readonly newRequestUrl: string = `${environment.apiUrl}requests/new`;
   readonly priorityUrl: string = `${environment.apiUrl}requests/set-priority`;
+  readonly updatedCardUrl: string = `${environment.apiUrl}requests/edit/`;
 
   private readonly itemTypeKey = 'itemType';
   private readonly foodTypeKey = 'foodType';
