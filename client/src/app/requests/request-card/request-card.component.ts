@@ -15,7 +15,7 @@ export class RequestCardComponent /*implements OnInit*/ {
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
 
-  isEditMode = false;
+  showMenu = false;
 
   constructor(
     private router: Router,
