@@ -10,10 +10,12 @@ import { RequestService } from '../request.service';
 })
 
 export class RequestCardComponent /*implements OnInit*/ {
-
+[x: string]: any;
+  @Input() viewExpanded: boolean;
   @Input() request: Request;
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
+
 
   showMenu = false;
 
@@ -40,4 +42,14 @@ export class RequestCardComponent /*implements OnInit*/ {
   }*/
 
  }
+
+  priority: number;
+  expandView(): void {
+    this.viewExpanded = !this.viewExpanded;
+    console.log('expandView() called');
+    console.log(this.request.name);
+  }
+
+}
+
 

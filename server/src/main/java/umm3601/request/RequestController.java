@@ -2,6 +2,7 @@ package umm3601.request;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +11,7 @@ import com.mongodb.client.model.Sorts;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import com.mongodb.client.result.DeleteResult;
+
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.conversions.Bson;
@@ -27,8 +29,12 @@ public class RequestController {
   static final String ITEM_TYPE_KEY = "itemType";
   static final String FOOD_TYPE_KEY = "foodType";
   static final String SORT_ORDER_KEY = "sortorder";
+  static final String PRIORITY_KEY = "priority";
 
-  private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other)$";
+  static final int LOWER_PRIORITY_BOUND = 1;
+  static final int UPPER_PRIORITY_BOUND = 5;
+
+  private static final String ITEM_TYPE_REGEX = "^(food|toiletries|other|FOOD)$";
   private static final String FOOD_TYPE_REGEX = "^(|dairy|grain|meat|fruit|vegetable)$";
 
   private final JacksonMongoCollection<Request> requestCollection;
@@ -71,6 +77,7 @@ public class RequestController {
    * @param ctx a Javalin HTTP context
    */
   public void getRequests(Context ctx) {
+    System.out.println("getRequests() called");
     Bson combinedFilter = constructFilter(ctx);
     Bson sortingOrder = constructSortingOrder(ctx);
 
@@ -115,12 +122,12 @@ public class RequestController {
   }
 
   private Bson constructSortingOrder(Context ctx) {
-    // Sort the results. Use the `sortby` query param (default "name")
+    // Sort the results. Use the `sortby` query param (default "priority")
     // as the field to sort by, and the query param `sortorder` (default
-    // "asc") to specify the sort order.
-    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "name");
+    // "desc") to specify the sort order.
+    String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "priority");
     String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
-    Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
+    Bson sortingOrder = sortOrder.equals("asc") ?  Sorts.ascending(sortBy) : Sorts.descending(sortBy);
     return sortingOrder;
   }
 
@@ -145,6 +152,7 @@ public class RequestController {
     // for a description of the various response codes.
     ctx.status(HttpStatus.CREATED);
   }
+
 
   public void editRequest(Context ctx) {
     String requestId = ctx.pathParam("id");
@@ -179,6 +187,45 @@ public class RequestController {
     // for a description of the various response codes.
     ctx.status(HttpStatus.OK);
 }
+
+  public void setPriority(Context ctx) {
+    System.out.println("setPriority called on the server");
+    Integer priority = ctx.queryParamAsClass(PRIORITY_KEY, Integer.class)
+        // .check() calls to queryParamAsClass in JUnit testing require passing the params
+        // as a validator (see Spec line 332)
+        .check(it -> it >= LOWER_PRIORITY_BOUND && it <= UPPER_PRIORITY_BOUND,
+          "Priority must be a number between 1 and 5 inclusive")
+        .get();
+    String id = ctx.pathParam("id");
+
+    try {
+      // ctx requires an _id path parameter.
+      // We should make sure this is a real request id before continuing.
+      this.getRequest(ctx);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestResponse("The desired request id wasn't a legal Mongo Object ID");
+    } catch (NotFoundResponse e) {
+      throw new NotFoundResponse("The desired request was not found");
+    }
+
+    List<Bson> toSet = new ArrayList<>();
+    toSet.add(eq("_id", new ObjectId(id))); // filter
+
+    toSet.add(set("priority", priority)); // update
+
+    requestCollection.updateOne(
+        toSet.get(0) /* filter */, toSet.get(1) /* update */
+       // The filter to find the object; in this case, its id.
+       // The instructions to update data; in this case, set the priority
+    );
+    // Look into passing the full request that was updated
+    // into the JSON (or the JSON of this.getRequest() somehow??)
+    ctx.json(Map.of("priority", priority));
+    System.out.println("setPriority call seems to work");
+    ctx.status(HttpStatus.OK);
+  }
+
+
 
 
   /**

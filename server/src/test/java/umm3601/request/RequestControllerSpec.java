@@ -3,6 +3,7 @@ package umm3601.request;
 
 
 import static com.mongodb.client.model.Filters.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -323,6 +324,52 @@ class RequestControllerSpec {
     assertNotEquals("", addedRequest.get("_id"));
     assertEquals("food", addedRequest.get("itemType"));
     assertEquals("meat", addedRequest.get("foodType"));
+  }
+
+  @Test
+  void setPriorityOfGivenRequest() {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+    Validator<Integer> validator = Validator.create(Integer.class, "3", RequestController.PRIORITY_KEY);
+    when(ctx.queryParamAsClass(RequestController.PRIORITY_KEY, Integer.class))
+      .thenReturn(validator);
+    /*when(ctx.bodyValidator(Integer.class))
+      .then(priority -> new BodyValidator<Integer>("3", Integer.class, javalinJackson));*/
+
+    requestController.setPriority(ctx);
+    verify(ctx).json(mapCaptor.capture());
+    verify(ctx, times(2)).status(HttpStatus.OK);
+
+    requestController.setPriority(ctx);
+
+    //Verify that the correct priority was assigned
+    assertEquals(3, mapCaptor.getValue().get("priority"));
+  }
+
+  @Test
+  void setInvalidPriorityTooHigh() {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+    Validator<Integer> validator = Validator.create(Integer.class, "6", RequestController.PRIORITY_KEY);
+    when(ctx.queryParamAsClass(RequestController.PRIORITY_KEY, Integer.class))
+      .thenReturn(validator);
+
+    assertThrows(ValidationException.class, () -> {
+      requestController.setPriority(ctx);
+    });
+  }
+
+  @Test
+  void setInvalidPriorityTooLow() {
+    String id = samsId.toHexString();
+    when(ctx.pathParam("id")).thenReturn(id);
+    Validator<Integer> validator = Validator.create(Integer.class, "0", RequestController.PRIORITY_KEY);
+    when(ctx.queryParamAsClass(RequestController.PRIORITY_KEY, Integer.class))
+      .thenReturn(validator);
+
+    assertThrows(ValidationException.class, () -> {
+      requestController.setPriority(ctx);
+    });
   }
 
   @Test

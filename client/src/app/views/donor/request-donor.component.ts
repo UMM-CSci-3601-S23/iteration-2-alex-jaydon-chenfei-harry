@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { Request, ItemType, FoodType } from '../../requests/request';
 import { RequestService } from '../../requests/request.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-request-donor',
@@ -14,21 +14,20 @@ import { RequestService } from '../../requests/request.service';
 
 export class RequestDonorComponent implements OnInit, OnDestroy {
   public serverFilteredRequests: Request[];
-  public filteredRequests: Request[];
+  public sortedRequests: Request[];
 
-  public requestName: string; // The name of the REQUESTER, not the request
   public requestItemType: ItemType;
-  public requestDescription: string;
   public requestFoodType: FoodType;
-
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(private requestService: RequestService, private snackBar: MatSnackBar) {
-  }
-  //Gets the requests from the server with the correct filters
+  constructor(
+    private requestService: RequestService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
+
   getRequestsFromServer(): void {
     this.requestService.getRequests({
-      name: this.requestName,
       itemType: this.requestItemType,
       foodType: this.requestFoodType
     }).pipe(
@@ -36,8 +35,8 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (returnedRequests) => {
         this.serverFilteredRequests = returnedRequests;
+        this.sortRequests();
       },
-
       error: (err) => {
         let message = '';
         if (err.error instanceof ErrorEvent) {
@@ -45,23 +44,37 @@ export class RequestDonorComponent implements OnInit, OnDestroy {
         } else {
           message = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
         }
-        this.snackBar.open(
-          message,
-          'OK',
-          {duration: 5000});
+        this.snackBar.open(message, 'OK', { duration: 5000 });
       },
     });
   }
-  //
-  public updateFilter(): void {
-    this.filteredRequests = this.serverFilteredRequests;
+
+  sortRequests() {
+    this.sortedRequests = [...this.serverFilteredRequests].sort((a, b) => {
+      const priorityA = a.priority || 0;
+      const priorityB = b.priority || 0;
+      return priorityB - priorityA;
+    });
   }
+
+  goToDonorInfo(): void {
+    this.router.navigate(['/donor-info']);
+  }
+
   ngOnInit(): void {
-      this.getRequestsFromServer();
+    this.getRequestsFromServer();
   }
 
   ngOnDestroy(): void {
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
+
+  /*sendSortedRequests(): void {
+    this.requestService.sendSortedRequests(this.sortedRequests).subscribe(() => {
+      console.log('Sorted requests sent to the server');
+    }, error => {
+      console.error('Error sending sorted requests:', error);
+    });
+  }*/
 }

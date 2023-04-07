@@ -10,24 +10,27 @@ describe('RequestService', () => {
   const testRequests: Request[] = [
     {
       _id: '1',
-      name: 'one',
+      name: 'bob',
       itemType: 'food',
       description: 'I would like to be able to get some spaghetti noodles',
-      foodType: 'grain'
+      foodType: 'grain',
+      priority: 3
     },
     {
       _id: '2',
-      name: 'two',
+      name: 'tim',
       itemType: 'toiletries',
       description: 'I need some toothpaste',
-      foodType: ''
+      foodType: '',
+      priority: 4
     },
     {
       _id: '3',
-      name: 'three',
+      name: 'timmy',
       itemType: 'other',
       description: 'Would it be possible for me to get some Advil?',
-      foodType: ''
+      foodType: '',
+      priority: 1
     }
   ];
 
@@ -135,7 +138,7 @@ describe('RequestService', () => {
 
   describe('addRequest', ()=> {
     it('talks to the right endpoint and is called once', waitForAsync(() => {
-      // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
+      // Mock the `httpClient>>>>>>> Presentation.addUser()` method, so that instead of making an HTTP request,
       // it just returns our test data.
       const REQUEST_ID = '2';
       const mockedMethod = spyOn(httpClient, 'post').and.returnValue(of(REQUEST_ID));

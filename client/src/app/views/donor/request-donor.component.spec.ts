@@ -116,8 +116,8 @@ describe('Misbehaving Donor view', () => {
     expect(donorList.serverFilteredRequests).toBeUndefined();
   });
 
-  it('updateFilter properly reassigns our request list', ()=>{
+  /*it('updateFilter properly reassigns our request list', ()=>{
     donorList.updateFilter();
     expect(donorList.filteredRequests === donorList.serverFilteredRequests).toBeTruthy();
-  });
+  });*/
 });
