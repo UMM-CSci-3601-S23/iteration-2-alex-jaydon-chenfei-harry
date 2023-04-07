@@ -85,10 +85,14 @@ public class Server {
 
     server.post("/api/requests/new", requestController::addNewRequest);
 
+
+    server.put("/api/requests/edit/{id}", requestController::editRequest);
+
     server.put("/api/requests/set-priority/{id}", requestController::setPriority);
 
+
     //Deleting requests
-    server.delete("/api/requests/{id}]", requestController::deleteRequest);
+    server.delete("/api/requests/{id}", requestController::deleteRequest);
 
 
     // This catches any uncaught exceptions thrown in the server

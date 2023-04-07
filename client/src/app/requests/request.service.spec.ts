@@ -138,7 +138,7 @@ describe('RequestService', () => {
 
   describe('addRequest', ()=> {
     it('talks to the right endpoint and is called once', waitForAsync(() => {
-      // Mock the `httpClient.addUser()` method, so that instead of making an HTTP request,
+      // Mock the `httpClient>>>>>>> Presentation.addUser()` method, so that instead of making an HTTP request,
       // it just returns our test data.
       const REQUEST_ID = '2';
       const mockedMethod = spyOn(httpClient, 'post').and.returnValue(of(REQUEST_ID));

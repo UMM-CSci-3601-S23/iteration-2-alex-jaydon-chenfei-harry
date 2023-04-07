@@ -153,6 +153,41 @@ public class RequestController {
     ctx.status(HttpStatus.CREATED);
   }
 
+
+  public void editRequest(Context ctx) {
+    String requestId = ctx.pathParam("id");
+
+    // Find the request with the specified ID
+    Request request = requestCollection.find(eq("_id", new ObjectId(requestId))).first();
+
+    if (request == null) {
+        // Return a 404 error if the request is not found
+        ctx.status(HttpStatus.NOT_FOUND);
+        return;
+    }
+
+    /*
+     * The follow chain of statements uses the Javalin validator system
+     * to verify that instance of `Request` provided in this context is
+     * a "legal" request. It checks the following things (in order):
+     *    - itemType is valid
+     *    - foodType is Valid
+     */
+    Request updatedRequest = ctx.bodyValidator(Request.class)
+        .check(req -> req.itemType.matches(ITEM_TYPE_REGEX), "Request must contain valid item type")
+        .check(req -> req.foodType.matches(FOOD_TYPE_REGEX), "Request must contain valid food type").get();
+
+    // Update the request in the database
+    requestCollection.replaceOne(eq("_id", new ObjectId(requestId)), updatedRequest);
+
+    ctx.json(Map.of("id", requestId));
+    // 204 is the HTTP code for when we successfully
+    // update a resource (a request in this case).
+    // See, e.g., https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+    // for a description of the various response codes.
+    ctx.status(HttpStatus.OK);
+}
+
   public void setPriority(Context ctx) {
     System.out.println("setPriority called on the server");
     Integer priority = ctx.queryParamAsClass(PRIORITY_KEY, Integer.class)
@@ -189,6 +224,7 @@ public class RequestController {
     System.out.println("setPriority call seems to work");
     ctx.status(HttpStatus.OK);
   }
+
 
 
 

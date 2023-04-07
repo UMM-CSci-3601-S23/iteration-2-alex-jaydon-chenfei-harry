@@ -30,8 +30,12 @@ import { RequestDonorComponent } from './views/donor/request-donor.component';
 import { RequestVolunteerComponent } from './views/volunteer/request-volunteer.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { RequestCardComponent } from './requests/request-card/request-card.component';
+
+import { EditCardComponent } from './requests/edit-card/edit-card.component';
+
 import { RequestEditComponent } from './requests/request-edit/request-edit/request-edit.component';
 import { DonorInfoComponent } from './views/donor/donor-info/donor-info.component';
+
 
 
 const MATERIAL_MODULES: any[] = [
@@ -61,6 +65,7 @@ const MATERIAL_MODULES: any[] = [
     RequestDonorComponent,
     RequestVolunteerComponent,
     RequestCardComponent,
+    EditCardComponent,
     RequestEditComponent,
     DonorInfoComponent
   ],
