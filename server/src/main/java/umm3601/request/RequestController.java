@@ -126,8 +126,8 @@ public class RequestController {
     // as the field to sort by, and the query param `sortorder` (default
     // "desc") to specify the sort order.
     String sortBy = Objects.requireNonNullElse(ctx.queryParam("sortby"), "priority");
-    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "asc");
-    Bson sortingOrder = sortOrder.equals("asc") ?  Sorts.ascending(sortBy) : Sorts.descending(sortBy);
+    String sortOrder = Objects.requireNonNullElse(ctx.queryParam("sortorder"), "desc");
+    Bson sortingOrder = sortOrder.equals("desc") ?  Sorts.descending(sortBy) : Sorts.ascending(sortBy);
     return sortingOrder;
   }
 
@@ -183,8 +183,13 @@ public class RequestController {
        // The filter to find the object; in this case, its id.
        // The instructions to update data; in this case, set the priority
     );
-    // Look into passing the full request that was updated
-    // into the JSON (or the JSON of this.getRequest() somehow??)
+    // !! NOTE FOR ITERATION 3 !!
+    /*
+     * It may be useful to have the Server send a JSON response that
+     * contains the *entire* updated request and not just the priority itself.
+     * This makes testing easier to ensure that we actually updated the correct
+     * request (it allows us to get the id and other fields from the JSON response).
+     */
     ctx.json(Map.of("priority", priority));
     System.out.println("setPriority call seems to work");
     ctx.status(HttpStatus.OK);
