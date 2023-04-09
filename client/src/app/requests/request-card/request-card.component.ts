@@ -11,7 +11,7 @@ import { RequestService } from '../request.service';
 
 export class RequestCardComponent /*implements OnInit*/ {
 [x: string]: any;
-  @Input() viewExpanded: boolean;
+  @Input() viewExpanded?: boolean=false;
   @Input() request: Request;
   @Input() simple?: boolean = false;
   @Input() showName: boolean;
