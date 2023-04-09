@@ -12,6 +12,8 @@ export class RequestVolunteerPage {
   private readonly button1 = '[data-test=backtoHomepageButton]';
   private readonly button2 = '[data-test=expandViewButton]';
   private readonly button3 = '[data-test=sortbyPriorityButton]';
+  private readonly button4 = '[data-test=backToVolunteerPageButton]';
+  private readonly button5 = '[data-test=editRequestButton]';
 
   navigateTo() {
     return cy.visit(this.baseUrl);
@@ -34,6 +36,14 @@ export class RequestVolunteerPage {
 
   sortbyPriorityButton(){
     return cy.get(this.button3) ;
+  }
+
+  backToVolunteerPageButton(){
+    return cy.get(this.button4) ;
+  }
+
+  editRequestButton(){
+    return cy.get(this.button5) ;
   }
 
   getRequestDescriptions(){

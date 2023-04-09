@@ -15,7 +15,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item [routerLink]="['/edit-card', this.request._id]">Edit</button>
+          <button mat-menu-item [routerLink]="['/edit-card', this.request._id]" data-test="editRequestButton">Edit</button>
           <!-- <button mat-menu-item (click)="deleteRequest()">Delete</button> -->
         </mat-menu>
       </mat-card-actions>
