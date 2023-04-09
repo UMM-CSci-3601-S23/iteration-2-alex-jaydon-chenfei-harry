@@ -80,6 +80,7 @@ const MATERIAL_MODULES: any[] = [
     MATERIAL_MODULES,
     LayoutModule,
   ],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
