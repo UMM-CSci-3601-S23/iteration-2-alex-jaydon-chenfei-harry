@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RequestCardComponent } from './request-card.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
 describe('RequestCardComponent', () => {
   let component: RequestCardComponent;
   let fixture: ComponentFixture<RequestCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RequestCardComponent ]
+      declarations: [ RequestCardComponent ],
+      imports: [HttpClientModule],
     })
     .compileComponents();
 

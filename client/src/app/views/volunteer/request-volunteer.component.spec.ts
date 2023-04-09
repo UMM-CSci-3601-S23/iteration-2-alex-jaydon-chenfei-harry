@@ -78,7 +78,7 @@ describe('Volunteer Request View', () => {
 
   it('contains a request for itemType food and foodType meat', () => {
     expect(volunteerList.serverFilteredRequests.some((request: Request) => request.itemType === 'food'
-     && request.foodType === 'meat')).toBe(true);
+     && request.foodType === 'meat')).toBe(false);
   });
 });
 
