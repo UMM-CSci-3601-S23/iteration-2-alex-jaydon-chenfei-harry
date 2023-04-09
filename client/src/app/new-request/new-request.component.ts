@@ -12,7 +12,7 @@ import { RequestService } from '../requests/request.service';
 })
 export class NewRequestComponent {
 
-  public type: ItemType = 'food';
+  public type: ItemType;
 
   newRequestForm = new FormGroup({
 

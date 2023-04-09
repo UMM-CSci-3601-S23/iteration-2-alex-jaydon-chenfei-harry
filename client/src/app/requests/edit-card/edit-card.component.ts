@@ -13,7 +13,7 @@ import { map } from 'rxjs';
 })
 export class EditCardComponent {
 
-  public type: ItemType = 'food';
+  public type: ItemType;
 
   editCardForm = new FormGroup({
     name: new FormControl('', Validators.compose([])),
