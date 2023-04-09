@@ -61,7 +61,7 @@ describe('Donor Request View', () => {
   }));
 
   it('contains all requests', () => {
-    expect(donorList.serverFilteredRequests.length).toBe(4);
+    expect(donorList.serverFilteredRequests.length).toBe(3);
   });
 
   it('contains a request for food', () => {

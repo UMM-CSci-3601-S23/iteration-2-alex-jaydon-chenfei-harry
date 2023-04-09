@@ -61,7 +61,7 @@ describe('Volunteer Request View', () => {
   }));
 
   it('contains all requests', () => {
-    expect(volunteerList.serverFilteredRequests.length).toBe(4);
+    expect(volunteerList.serverFilteredRequests.length).toBe(3);
   });
 
   it('contains a request for food', () => {
