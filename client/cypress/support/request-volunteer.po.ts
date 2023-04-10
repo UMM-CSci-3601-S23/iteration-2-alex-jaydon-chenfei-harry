@@ -13,7 +13,9 @@ export class RequestVolunteerPage {
   private readonly button2 = '[data-test=expandViewButton]';
   private readonly button3 = '[data-test=sortbyPriorityButton]';
   private readonly button4 = '[data-test=backToVolunteerPageButton]';
-  private readonly button5 = '[data-test=editRequestButton]';
+  private readonly button5 = '[data-test=confirmNewRequestButton]';
+  private readonly formFieldSelector = `mat-form-field`;
+  private readonly snackBar = '.mat-mdc-simple-snack-bar';
 
   navigateTo() {
     return cy.visit(this.baseUrl);
@@ -42,12 +44,25 @@ export class RequestVolunteerPage {
     return cy.get(this.button4) ;
   }
 
-  editRequestButton(){
-    return cy.get(this.button5) ;
+  newRequestButton() {
+    return cy.get(this.button5);
   }
 
   getRequestDescriptions(){
     return cy.get(this.requestDescriptionSelection);
+  }
+
+  getFormField(fieldName: string) {
+    return cy.get(`${this.formFieldSelector} [formcontrolname=${fieldName}]`);
+  }
+
+  setMatSelect(formControlName: string, value: string){
+    cy.get(`mat-select[formControlName=${formControlName}]`).click();
+    cy.get('mat-option').contains(`${value}`).click();
+  }
+
+  getSnackBar() {
+    return cy.get(this.snackBar);
   }
 
   selectItemType(value: ItemType) {

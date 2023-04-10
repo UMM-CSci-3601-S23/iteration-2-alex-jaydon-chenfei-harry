@@ -25,7 +25,6 @@ describe('Volunteer View', () => {
     page.getRequestListItems().should('have.length', 7);
 
     page.getRequestListItems().each(el => {
-    //some issues with this test
       cy.get('.null-name').should('contain.text', 'No name');
     });
   });
@@ -136,6 +135,31 @@ describe('Volunteer View', () => {
     cy.get('.priority-request-card').each(($sortedCard, index) => {
       const sortedCardDescription = $sortedCard.find('p').text();
       expect(sortedCardDescription).to.equal(initialCardDescriptions[index]);
+    });
+  });
+
+  //Tests with the functionality of editing request
+  it('should edit requests', () => {
+    page.getRequestListItems().then(($cards) => {
+      const $card = $cards[getRandomInteger(0, 6)];
+      cy.wrap($card).find('mat-icon:contains("more_vert")').click({ force: true });
+      cy.wrap($card).get('[data-test="editRequestButton"]').click();
+
+      page.newRequestButton().should('be.disabled');
+      page.getFormField('name').type('KK');
+      page.newRequestButton().should('be.disabled');
+      page.setMatSelect('itemType','Food');
+      page.newRequestButton().should('be.disabled');
+      page.getFormField('description').type('KK TEST EDIT REQUEST KK');
+      page.newRequestButton().should('be.enabled');
+
+      page.newRequestButton().click();
+      page.getSnackBar().should('contain', `Request successfully submitted`);
+      page.backToVolunteerPageButton().click();
+
+      cy.get('.request-card-title').should('contain.text', 'food');
+      cy.get('.request-card-description').should('contain.text', 'KK TEST EDIT REQUEST KK');
+      cy.get('.volunteer-card-name').should('contain.text', 'Requested by ' + 'KK');
     });
   });
 });
