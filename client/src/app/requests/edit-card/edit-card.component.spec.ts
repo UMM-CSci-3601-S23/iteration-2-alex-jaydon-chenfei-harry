@@ -13,7 +13,7 @@ import { EditCardComponent } from './edit-card.component';
 
 describe('EditCardComponent', () => {
   let editCardComponent: EditCardComponent;
-  let newRequestForm: FormGroup;
+  let editCardForm: FormGroup;
   let fixture: ComponentFixture<EditCardComponent>;
 
   beforeEach(waitForAsync(() => {
@@ -40,9 +40,9 @@ describe('EditCardComponent', () => {
     fixture = TestBed.createComponent(EditCardComponent);
     editCardComponent = fixture.componentInstance;
     fixture.detectChanges();
-    newRequestForm = editCardComponent.editCardForm;
-    expect(newRequestForm).toBeDefined();
-    expect(newRequestForm.controls).toBeDefined();
+    editCardForm = editCardComponent.editCardForm;
+    expect(editCardForm).toBeDefined();
+    expect(editCardForm.controls).toBeDefined();
   });
 
   // Not terribly important; if the component doesn't create
@@ -52,14 +52,15 @@ describe('EditCardComponent', () => {
   // prevent them from being successfully constructed.
   it('should create the component and form', () => {
     expect(editCardComponent).toBeTruthy();
-    expect(newRequestForm).toBeTruthy();
+    expect(editCardForm).toBeTruthy();
   });
 
   // Confirms that an initial, empty form is *not* valid, so
   // people can't submit an empty form.
   it('form should be invalid when empty', () => {
-    expect(newRequestForm.valid).toBeFalsy();
+    expect(editCardForm.valid).toBeFalsy();
   });
+
 
   describe('The description field', () => {
     let descControl: AbstractControl;
@@ -104,7 +105,7 @@ describe('EditCardComponent', () => {
     let itemTypeControl: AbstractControl;
 
     beforeEach(() => {
-      itemTypeControl = newRequestForm.controls.itemType;
+      itemTypeControl = editCardForm.controls.itemType;
     });
 
     it('should not allow empty values', () => {
@@ -138,7 +139,7 @@ describe('EditCardComponent', () => {
     let foodTypeControl: AbstractControl;
 
     beforeEach(() => {
-      foodTypeControl = newRequestForm.controls.foodType;
+      foodTypeControl = editCardForm.controls.foodType;
     });
 
     it('should allow empty values', () => {
@@ -176,11 +177,22 @@ describe('EditCardComponent', () => {
       expect(foodTypeControl.valid).toBeFalsy();
     });
   });
+  describe('The name field', () => {
+    let nameControl: AbstractControl;
+
+    beforeEach(() => {
+      nameControl = editCardComponent.editCardForm.controls.name;
+    });
+    it('should not allow empty name', () => {
+      nameControl.setValue('');
+      expect(nameControl.valid).toBeFalsy();
+    });
+  });
   describe('The getErrorMessage method', ()=>{
     let itemTypeControl: AbstractControl;
 
     beforeEach(() => {
-      itemTypeControl = newRequestForm.controls.itemType;
+      itemTypeControl = editCardForm.controls.itemType;
     });
 
     it('should return "unknown error" when passed an invalid error code', ()=> {
@@ -192,5 +204,34 @@ describe('EditCardComponent', () => {
       expect(editCardComponent.getErrorMessage('itemType')).toBeTruthy();
     });
   });
+  /*describe('EditCardComponent - submitForm', () => {
+    let component: EditCardComponent;
+    beforeEach(() => {
+      component = new EditCardComponent();
+    });
+    it('should set isLoading to true', () => {
+      component.isLoading = false;
+      component.submitForm();
+      expect(component.isLoading).toBe(true);
+    });
+    it('should call updateCard with the correct arguments', () => {
+      spyOn(component, 'updateCard');
+      component.card = { id: 1, title: 'Test Card', description: 'This is a test card' };
+      component.submitForm();
+      expect(component.updateCard).toHaveBeenCalledWith(1, 'Test Card', 'This is a test card');
+    });
+    it('should set isLoading to false on success', () => {
+      spyOn(component, 'updateCard').and.returnValue(Promise.resolve());
+      component.isLoading = true;
+      component.submitForm();
+      expect(component.isLoading).toBe(false);
+    });
+    it('should set isLoading to false on error', () => {
+      spyOn(component, 'updateCard').and.returnValue(Promise.reject());
+      component.isLoading = true;
+      component.submitForm();
+      expect(component.isLoading).toBe(false);
+    });
+  }); */
 });
 

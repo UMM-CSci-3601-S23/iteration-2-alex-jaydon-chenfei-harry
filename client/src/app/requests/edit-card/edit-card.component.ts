@@ -85,7 +85,7 @@ export class EditCardComponent {
               this.snackBar.open(
                 `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
                 'OK',
-                { duration: 50000 }
+                { duration: 5000 }
               );
             },
             // complete: () => console.log('Add user completes!')

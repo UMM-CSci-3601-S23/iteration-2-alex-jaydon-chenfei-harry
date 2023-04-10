@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { Request } from './request';
 import { RequestService } from './request.service';
 
@@ -155,5 +155,105 @@ describe('RequestService', () => {
           .toHaveBeenCalledWith(requestService.newRequestUrl, testRequests[1]);
       });
   }));
+    it('returns an error if the request fails', () => {
+      const mockHttpClient = spyOn(httpClient, 'post').and.returnValue(throwError('Error'));
+
+      requestService.addRequest(testRequests[1]).subscribe(
+        () => fail('Expected error to be thrown'),
+        (error) => expect(error).toEqual('Error')
+      );
+    });
 });
+  describe('updateCard', () => {
+
+    it('sends a PUT request to the correct endpoint and is called once', () => {
+      const mockHttpClient = spyOn(httpClient, 'put').and.returnValue(of({ id: 'test-id' }));
+      const testId = 'test-id';
+
+      requestService.updateCard(testRequests[1], testId).subscribe((returnedString) => {
+        expect(mockHttpClient).toHaveBeenCalledTimes(1);
+        expect(mockHttpClient).toHaveBeenCalledWith(requestService.updatedCardUrl + testId, testRequests[1]);
+        expect(returnedString).toEqual('test-id');
+      });
+    });
+
+    it('returns an error if the server responds with an error status code', () => {
+      spyOn(httpClient, 'put').and.returnValue(throwError({ status: 404 }));
+
+      requestService.updateCard(testRequests[1], '1').subscribe({
+        error: (err) => {
+          expect(err.status).toBe(404);
+        },
+      });
+    });
+
+    it('returns the correct data if the server responds with a success status code and the `id` property is present', () => {
+      const updatedId = 'updated-id';
+      spyOn(httpClient, 'put').and.returnValue(of({ id: updatedId }));
+
+      requestService.updateCard(testRequests[1], '1').subscribe((id) => {
+        expect(id).toEqual(updatedId);
+      });
+    });
+
+    it('returns null if the server responds with a success status code but the `id` property is not present', () => {
+      spyOn(httpClient, 'put').and.returnValue(of({}));
+
+      requestService.updateCard(testRequests[1], '1').subscribe((id) => {
+        expect(id).toEqual(undefined);
+      });
+    });
+  });
+  describe('addRequestPriority', () => {
+    let httpClientSpy: { put: jasmine.Spy };
+    let service: RequestService;
+
+    beforeEach(() => {
+      httpClientSpy = jasmine.createSpyObj('HttpClient', ['put']);
+      service = new RequestService(httpClientSpy as any);
+    });
+
+    it('should update request priority', () => {
+      const priorityGiven = '2';
+      const expectedPriority = 2;
+
+      httpClientSpy.put.and.returnValue(of({ priority: expectedPriority }));
+
+      service.addRequestPriority(testRequests[1], priorityGiven).subscribe(priority => {
+        expect(priority).toEqual(expectedPriority);
+      });
+
+      expect(httpClientSpy.put.calls.count()).toBe(1, 'one call');
+      expect(httpClientSpy.put.calls.mostRecent().args[0]).toEqual(`${service.priorityUrl}/${testRequests[1]._id}`, 'URL');
+      expect(httpClientSpy.put.calls.mostRecent().args[1].toString()).toEqual('2', 'priorityGiven as param');
+    });
+
+    it('should return the correct priority when updating the request priority', () => {
+      const priorityGiven = '1';
+      const expectedPriority = 1;
+
+      httpClientSpy.put.and.returnValue(of({ priority: expectedPriority }));
+
+      service.addRequestPriority(testRequests[2], priorityGiven).subscribe(priority => {
+        expect(priority).toEqual(expectedPriority);
+      });
+
+      expect(httpClientSpy.put.calls.count()).toBe(1, 'one call');
+      expect(httpClientSpy.put.calls.mostRecent().args[0]).toEqual(`${service.priorityUrl}/${testRequests[2]._id}`, 'URL');
+      expect(httpClientSpy.put.calls.mostRecent().args[1].toString()).toEqual('1', 'priorityGiven as param');
+    });
+
+    it('should send the correct data to the server when updating the request priority', () => {
+      const priorityGiven = '3';
+      const expectedPriority = 3;
+
+      httpClientSpy.put.and.returnValue(of({ priority: expectedPriority }));
+
+      service.addRequestPriority(testRequests[0], priorityGiven).subscribe();
+
+      expect(httpClientSpy.put.calls.count()).toBe(1, 'one call');
+      expect(httpClientSpy.put.calls.mostRecent().args[0]).toEqual(`${service.priorityUrl}/${testRequests[0]._id}`, 'URL');
+      expect(httpClientSpy.put.calls.mostRecent().args[1].toString()).toEqual('3', 'priorityGiven as param');
+    });
+  });
 });
