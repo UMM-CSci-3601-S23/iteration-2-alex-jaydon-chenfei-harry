@@ -80,7 +80,7 @@ describe('Donor View', () => {
 
   //Tests with the button *EXPAND*
   it('Should return the correct elements before and after clicking the button *EXPAND*', () => {
-    //Some issues with the test
+
     page.selectItemType('food');
     page.selectFoodType('vegetable');
 

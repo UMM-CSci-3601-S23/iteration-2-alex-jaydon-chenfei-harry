@@ -83,7 +83,6 @@ describe('Add request', () => {
         name: 'Jaydon',
         priority: null
       };
-      page.setMatSelect('itemType', 'Other');
       page.newRequest(request);
       // We should see the confirmation message at the bottom of the screen
       page.getSnackBar().should('contain', `Request successfully submitted`);
