@@ -13,13 +13,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MockRequestService } from 'src/testing/request.service.mock';
 import { ItemType, Request } from '../../requests/request';
 import { RequestVolunteerComponent } from './request-volunteer.component';
 import { RequestService } from '../../requests/request.service';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 const COMMON_IMPORTS: unknown[] = [
   FormsModule,
@@ -43,6 +43,9 @@ const COMMON_IMPORTS: unknown[] = [
 describe('Volunteer Request View', () => {
   let volunteerList: RequestVolunteerComponent;
   let fixture: ComponentFixture<RequestVolunteerComponent>;
+  let requestService: RequestService;
+  let snackBar: MatSnackBar;
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +59,8 @@ describe('Volunteer Request View', () => {
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(RequestVolunteerComponent);
       volunteerList = fixture.componentInstance;
+      requestService = TestBed.inject(RequestService);
+      snackBar = TestBed.inject(MatSnackBar);
       fixture.detectChanges();
     });
   }));
@@ -88,13 +93,14 @@ describe('Misbehaving Volunteer view', () => {
 
   let requestServiceStub: {
     getRequests: () => Observable<Request[]>;
+    addRequestPriority: (request: Request, priority: string) => Observable<any>;
   };
-
   beforeEach(() => {
     requestServiceStub = {
       getRequests: () => new Observable(observer => {
         observer.error('getRequests() Observer generates an error');
-      })
+      }),
+      addRequestPriority: () => of(null)
     };
 
     TestBed.configureTestingModule({
@@ -122,5 +128,54 @@ describe('Misbehaving Volunteer view', () => {
     expect(volunteerList.filteredRequests).toEqual(volunteerList.serverFilteredRequests);
   });
 
+  it('should update request priority and call updateFilter', () => {
+    const request: Request = {
+      _id: '1',
+      name: 'Test Request',
+      itemType: 'food',
+      foodType: 'grain',
+      description: '',
+      priority: 0
+    };
+    const priority = 'high';
+
+    const requestService = requestServiceStub;
+
+    // Spy on addRequestPriority method and return an observable
+    spyOn(requestService, 'addRequestPriority').and.returnValue(of(null));
+
+    // Spy on updateFilter method
+    spyOn(volunteerList, 'updateFilter');
+
+    volunteerList.updateRequestPriority(request, priority);
+
+    expect(requestService.addRequestPriority).toHaveBeenCalledWith(request, priority);
+    expect(volunteerList.updateFilter).toHaveBeenCalled();
+  });
+  describe('MockRequestService', () => {
+    let mockRequestService: MockRequestService;
+
+    beforeEach(() => {
+      mockRequestService = new MockRequestService();
+    });
+
+    it('should call addRequestPriority with correct arguments', () => {
+      const request: Request = {
+        _id: '1',
+        name: 'Test Request',
+        itemType: 'food',
+        foodType: 'grain',
+        description: '',
+        priority: 0
+      };
+      const priority = 'high';
+
+      spyOn(mockRequestService, 'addRequestPriority').and.callThrough();
+
+      mockRequestService.addRequestPriority(request, priority);
+
+      expect(mockRequestService.addRequestPriority).toHaveBeenCalledWith(request, priority);
+    });
+  });
 
 });

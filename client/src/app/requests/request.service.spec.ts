@@ -4,6 +4,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Request } from './request';
 import { RequestService } from './request.service';
+import { environment } from 'src/environments/environment';
 
 describe('RequestService', () => {
   //small collection of test Requests
@@ -156,4 +157,19 @@ describe('RequestService', () => {
       });
   }));
 });
+it('should update a request', () => {
+  const updatedRequest: Partial<Request> = { name: 'Updated Request', itemType: 'food', foodType: 'grain' };
+  const _id = '1';
+  const expectedResponse = { id: '1' };
+
+  requestService.updateCard(updatedRequest, _id).subscribe(id => {
+    expect(id).toEqual(expectedResponse.id);
+  });
+
+  const req = httpTestingController.expectOne(`${environment.apiUrl}requests/edit/${_id}`);
+  expect(req.request.method).toEqual('PUT');
+  expect(req.request.body).toEqual(updatedRequest);
+  req.flush(expectedResponse);
+});
+
 });
