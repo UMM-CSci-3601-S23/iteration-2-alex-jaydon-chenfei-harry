@@ -4,6 +4,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { Request } from './request';
 import { RequestService } from './request.service';
+import { environment } from 'src/environments/environment';
 
 describe('RequestService', () => {
   //small collection of test Requests
@@ -256,4 +257,6 @@ describe('RequestService', () => {
       expect(httpClientSpy.put.calls.mostRecent().args[1].toString()).toEqual('3', 'priorityGiven as param');
     });
   });
+});
+
 });

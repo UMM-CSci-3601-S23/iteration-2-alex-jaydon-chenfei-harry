@@ -11,6 +11,9 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class RequestService {
+  static addRequest(addRequest: any) {
+    throw new Error('Method not implemented.');
+  }
   // The URL for the requests part of the server API
   readonly requestUrl: string = `${environment.apiUrl}requests`;
   readonly newRequestUrl: string = `${environment.apiUrl}requests/new`;
