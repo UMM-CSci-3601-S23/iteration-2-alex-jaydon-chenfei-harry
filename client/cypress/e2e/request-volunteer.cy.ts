@@ -160,6 +160,11 @@ describe('Volunteer View', () => {
       cy.get('.request-card-title').should('contain.text', 'food');
       cy.get('.request-card-description').should('contain.text', 'KK TEST EDIT REQUEST KK');
       cy.get('.volunteer-card-name').should('contain.text', 'Requested by ' + 'KK');
+
+      cy.visit('/requests/donor');
+      cy.get('.request-card-title').should('contain.text', 'food');
+      cy.get('.request-card-description').should('contain.text', 'KK TEST EDIT REQUEST KK');
+      cy.get('.donor-card-name').should('contain.text', 'Requested by Anonymous');
     });
   });
 });
