@@ -14,7 +14,7 @@ import { RequestService } from '../../requests/request.service';
 })
 
 export class RequestVolunteerComponent implements OnInit, OnDestroy {
-  public serverFilteredRequests: Request[];
+  public serverFilteredRequests: Request[] = [];
   public filteredRequests: Request[];
   public requestItemType: ItemType;
   public requestDescription: string;
@@ -22,11 +22,13 @@ export class RequestVolunteerComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public sortedRequests: Request[];
-
   constructor(
     private requestService: RequestService,
     private snackBar: MatSnackBar,
-  ){}
+  ){
+    this.filteredRequests = [];
+  }
+
 
   updateRequestPriority(request: Request, priority: string) {
     this.requestService

@@ -4,17 +4,22 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockRequestService } from 'src/testing/request.service.mock';;
 import { RequestService } from '../request.service';
+import { Router } from '@angular/router';
 import { EditCardComponent } from './edit-card.component';
+import { of, throwError } from 'rxjs';
 
 describe('EditCardComponent', () => {
   let editCardComponent: EditCardComponent;
-  let newRequestForm: FormGroup;
+  let editCardForm: FormGroup;
   let fixture: ComponentFixture<EditCardComponent>;
+  let requestService: RequestService;
+  let snackBar: MatSnackBar;
+  let router: Router;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideProvider(RequestService, { useValue: new MockRequestService() });
@@ -37,12 +42,19 @@ describe('EditCardComponent', () => {
   }));
 
   beforeEach(() => {
+    // Create a spy for the addRequest method
+    spyOn(TestBed.inject(RequestService), 'updateCard').and.returnValue(throwError({ status: 500, message: 'Internal server error' }));
+  });
+  beforeEach(() => {
     fixture = TestBed.createComponent(EditCardComponent);
     editCardComponent = fixture.componentInstance;
     fixture.detectChanges();
-    newRequestForm = editCardComponent.editCardForm;
-    expect(newRequestForm).toBeDefined();
-    expect(newRequestForm.controls).toBeDefined();
+    requestService = TestBed.inject(RequestService);
+    editCardForm = editCardComponent.editCardForm;
+    snackBar = TestBed.inject(MatSnackBar);
+    router = TestBed.inject(Router);
+    expect(editCardForm).toBeDefined();
+    expect(editCardForm.controls).toBeDefined();
   });
 
   // Not terribly important; if the component doesn't create
@@ -52,14 +64,15 @@ describe('EditCardComponent', () => {
   // prevent them from being successfully constructed.
   it('should create the component and form', () => {
     expect(editCardComponent).toBeTruthy();
-    expect(newRequestForm).toBeTruthy();
+    expect(editCardForm).toBeTruthy();
   });
 
   // Confirms that an initial, empty form is *not* valid, so
   // people can't submit an empty form.
   it('form should be invalid when empty', () => {
-    expect(newRequestForm.valid).toBeFalsy();
+    expect(editCardForm.valid).toBeFalsy();
   });
+
 
   describe('The description field', () => {
     let descControl: AbstractControl;
@@ -100,11 +113,79 @@ describe('EditCardComponent', () => {
     });
   });
 
+  describe('The name field', () => {
+    let nameControl: AbstractControl;
+
+    beforeEach(() => {
+      nameControl = editCardComponent.editCardForm.controls.description;
+    });
+
+    it('should not allow empty names', () => {
+      nameControl.setValue('');
+      expect(nameControl.valid).toBeFalsy();
+    });
+
+    it('should be fine with "Allen"', () => {
+      nameControl.setValue('Allen');
+      expect(nameControl.valid).toBeTruthy();
+    });
+
+    // In the real world, you'd want to be pretty careful about
+    // setting upper limits on things like name lengths just
+    // because there are people with really long names.
+    it('should fail on really long descriptions', () => {
+      nameControl.setValue('x'.repeat(500));
+      expect(nameControl.valid).toBeFalsy();
+      // Annoyingly, Angular uses lowercase 'l' here
+      // when it's an upper case 'L' in `Validators.maxLength(2)`.
+      expect(nameControl.hasError('maxlength')).toBeTruthy();
+    });
+
+    it('should allow digits in the description', () => {
+      nameControl.setValue('John the 4th');
+      expect(nameControl.valid).toBeTruthy();
+    });
+  });
+
+  describe('The name field', () => {
+    let nameControl: AbstractControl;
+
+    beforeEach(() => {
+      nameControl = editCardComponent.editCardForm.controls.description;
+    });
+
+    it('should allow empty name', () => {
+      nameControl.setValue('');
+      expect(nameControl.valid).toBeFalsy();
+    });
+
+    it('should be fine with "Allen"', () => {
+      nameControl.setValue('Nature valley bars');
+      expect(nameControl.valid).toBeTruthy();
+    });
+
+    // In the real world, you'd want to be pretty careful about
+    // setting upper limits on things like name lengths just
+    // because there are people with really long names.
+    it('should fail on really long descriptions', () => {
+      nameControl.setValue('x'.repeat(500));
+      expect(nameControl.valid).toBeFalsy();
+      // Annoyingly, Angular uses lowercase 'l' here
+      // when it's an upper case 'L' in `Validators.maxLength(2)`.
+      expect(nameControl.hasError('maxlength')).toBeTruthy();
+    });
+
+    it('should allow digits in the description', () => {
+      nameControl.setValue('John the 4th');
+      expect(nameControl.valid).toBeTruthy();
+    });
+  });
+
   describe('The itemType field', () => {
     let itemTypeControl: AbstractControl;
 
     beforeEach(() => {
-      itemTypeControl = newRequestForm.controls.itemType;
+      itemTypeControl = editCardForm.controls.itemType;
     });
 
     it('should not allow empty values', () => {
@@ -138,7 +219,7 @@ describe('EditCardComponent', () => {
     let foodTypeControl: AbstractControl;
 
     beforeEach(() => {
-      foodTypeControl = newRequestForm.controls.foodType;
+      foodTypeControl = editCardForm.controls.foodType;
     });
 
     it('should allow empty values', () => {
@@ -180,7 +261,7 @@ describe('EditCardComponent', () => {
     let itemTypeControl: AbstractControl;
 
     beforeEach(() => {
-      itemTypeControl = newRequestForm.controls.itemType;
+      itemTypeControl = editCardForm.controls.itemType;
     });
 
     it('should return "unknown error" when passed an invalid error code', ()=> {
@@ -191,6 +272,40 @@ describe('EditCardComponent', () => {
       itemTypeControl.setValue('--');
       expect(editCardComponent.getErrorMessage('itemType')).toBeTruthy();
     });
+    it('should submit the form successfully', waitForAsync(() => {
+      spyOn(requestService, 'updateCard').and.returnValue(of('editCardId'));
+      spyOn(snackBar, 'open');
+      spyOn(router, 'navigate');
+
+      editCardComponent.submitForm();
+
+      fixture.whenStable().then(() => {
+        expect(requestService.updateCard).toHaveBeenCalled();
+        expect(router.navigate).toHaveBeenCalledWith(['/requests', 'editCardId']);
+      });
+    }));
+
+    it('should handle error when submitting the form', waitForAsync(() => {
+      const errorResponse = {
+        status: 500,
+        message: 'Internal server error',
+      };
+
+      spyOn(snackBar, 'open');
+      spyOn(router, 'navigate');
+
+      editCardComponent.submitForm();
+
+      fixture.whenStable().then(() => {
+        expect(requestService.updateCard).toHaveBeenCalled();
+        expect(snackBar.open).toHaveBeenCalledWith(
+          `Problem contacting the server – Error Code: ${errorResponse.status}\nMessage: ${errorResponse.message}`,
+          'OK',
+          { duration: 5000 }
+        );
+        expect(router.navigate).not.toHaveBeenCalled();
+  });
+}));
   });
 });
 

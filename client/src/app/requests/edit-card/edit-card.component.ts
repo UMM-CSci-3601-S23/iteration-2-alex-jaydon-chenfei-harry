@@ -16,9 +16,11 @@ export class EditCardComponent {
   public type: ItemType;
 
   editCardForm = new FormGroup({
-    name: new FormControl('', Validators.compose([])),
-    // We want descriptions to be short and sweet, yet still required so we have at least some idea what
-    // the client wants
+    name: new FormControl('', Validators.compose([
+      Validators.required,
+      Validators.maxLength(400),
+    ])),
+
     description: new FormControl('', Validators.compose([
       Validators.required,
       Validators.minLength(5),
@@ -85,7 +87,7 @@ export class EditCardComponent {
               this.snackBar.open(
                 `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`,
                 'OK',
-                { duration: 50000 }
+                { duration: 5000 }
               );
             },
             // complete: () => console.log('Add user completes!')

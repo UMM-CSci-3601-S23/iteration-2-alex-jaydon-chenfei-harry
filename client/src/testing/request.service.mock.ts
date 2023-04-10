@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { Request, ItemType, FoodType } from 'src/app/requests/request';
 import { RequestService } from 'src/app/requests/request.service';
@@ -7,6 +7,7 @@ import { RequestService } from 'src/app/requests/request.service';
 @Injectable({
   providedIn: AppComponent
 })
+
 export class MockRequestService extends RequestService {
   static testRequests: Request[] = [
     {
@@ -40,8 +41,26 @@ export class MockRequestService extends RequestService {
   }
 
   getRequests(filters?: { itemType?: ItemType; foodType?: FoodType }): Observable<Request[]> {
-      return of(MockRequestService.testRequests);
+    return of(MockRequestService.testRequests);
   }
 
+  addRequestPriority(request: Request, priority: string): Observable<any> {
+    return of(null);
+  }
+  addRequest(request: any): Observable<any> {
+    if (request) {
+      return of('newRequestId');
+    } else {
+      return throwError({ status: 500, message: 'Internal server error' });
+    }
+  }
+  updateCard(request: any): Observable<any> {
+    if (request) {
+      return of('editCardId');
+    } else {
+      return throwError({ status: 500, message: 'Internal server error' });
+    }
+  }
 
-}
+  }
+

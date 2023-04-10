@@ -24,6 +24,10 @@ export class RequestService {
   constructor(private httpClient: HttpClient) {
   }
 
+  public getPriorityKey(): string {
+    return this.priorityKey;
+  }
+
   getRequests(filters?: {name?: string; itemType?: ItemType; foodType?: FoodType}): Observable<Request[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
