@@ -5,6 +5,7 @@ import { of, throwError } from 'rxjs';
 import { Request } from './request';
 import { RequestService } from './request.service';
 import { environment } from 'src/environments/environment';
+import { MockRequestService } from 'src/testing/request.service.mock';
 
 describe('RequestService', () => {
   //small collection of test Requests
