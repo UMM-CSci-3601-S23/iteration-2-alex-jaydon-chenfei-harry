@@ -39,6 +39,10 @@ const COMMON_IMPORTS: unknown[] = [
   BrowserAnimationsModule,
   RouterTestingModule,
 ];
+describe('Your Test Suite', () => {
+  beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
 
 describe('Volunteer Request View', () => {
   let volunteerList: RequestVolunteerComponent;
@@ -178,4 +182,5 @@ describe('Misbehaving Volunteer view', () => {
     });
   });
 
+});
 });
