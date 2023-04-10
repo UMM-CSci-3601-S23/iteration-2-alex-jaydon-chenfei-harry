@@ -112,6 +112,40 @@ describe('NewRequestComponent', () => {
     });
   });
 
+  describe('The name field', () => {
+    let nameControl: AbstractControl;
+
+    beforeEach(() => {
+      nameControl = newRequestComponent.newRequestForm.controls.description;
+    });
+
+    it('should allow empty name', () => {
+      nameControl.setValue('');
+      expect(nameControl.valid).toBeFalsy();
+    });
+
+    it('should be fine with "Allen"', () => {
+      nameControl.setValue('Nature valley bars');
+      expect(nameControl.valid).toBeTruthy();
+    });
+
+    // In the real world, you'd want to be pretty careful about
+    // setting upper limits on things like name lengths just
+    // because there are people with really long names.
+    it('should fail on really long descriptions', () => {
+      nameControl.setValue('x'.repeat(500));
+      expect(nameControl.valid).toBeFalsy();
+      // Annoyingly, Angular uses lowercase 'l' here
+      // when it's an upper case 'L' in `Validators.maxLength(2)`.
+      expect(nameControl.hasError('maxlength')).toBeTruthy();
+    });
+
+    it('should allow digits in the description', () => {
+      nameControl.setValue('John the 4th');
+      expect(nameControl.valid).toBeTruthy();
+    });
+  });
+
   describe('The itemType field', () => {
     let itemTypeControl: AbstractControl;
 

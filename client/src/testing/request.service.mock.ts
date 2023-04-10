@@ -54,6 +54,13 @@ export class MockRequestService extends RequestService {
       return throwError({ status: 500, message: 'Internal server error' });
     }
   }
+  updateCard(request: any): Observable<any> {
+    if (request) {
+      return of('editCardId');
+    } else {
+      return throwError({ status: 500, message: 'Internal server error' });
+    }
+  }
 
   }
 
