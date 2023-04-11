@@ -238,7 +238,8 @@ describe('NewRequestComponent', () => {
       expect(newRequestComponent.getErrorMessage('itemType')).toBeTruthy();
     });
     it('should submit the form successfully', waitForAsync(() => {
-      spyOn(requestService, 'addRequest').and.returnValue(of('newRequestId'));
+      requestService.addRequest = jasmine.createSpy().and.returnValue(of('newRequestId'));
+      //spyOn(requestService, 'addRequest').and.returnValue(of('newRequestId'));
       spyOn(snackBar, 'open');
       spyOn(router, 'navigate');
 

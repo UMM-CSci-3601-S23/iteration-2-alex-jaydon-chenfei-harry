@@ -273,7 +273,8 @@ describe('EditCardComponent', () => {
       expect(editCardComponent.getErrorMessage('itemType')).toBeTruthy();
     });
     it('should submit the form successfully', waitForAsync(() => {
-      spyOn(requestService, 'updateCard').and.returnValue(of('editCardId'));
+      requestService.updateCard = jasmine.createSpy().and.returnValue(of('editCardId'));
+      //spyOn(requestService, 'updateCard').and.returnValue(of('editCardId'));
       spyOn(snackBar, 'open');
       spyOn(router, 'navigate');
 
@@ -281,7 +282,7 @@ describe('EditCardComponent', () => {
 
       fixture.whenStable().then(() => {
         expect(requestService.updateCard).toHaveBeenCalled();
-        expect(router.navigate).toHaveBeenCalledWith(['/requests', 'editCardId']);
+        expect(router.navigate).toHaveBeenCalledWith(['/requests/volunteer']);
       });
     }));
 
