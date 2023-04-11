@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
-
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -29,6 +29,12 @@ import { HomeComponent } from './home/home.component';
 import { RequestDonorComponent } from './views/donor/request-donor.component';
 import { RequestVolunteerComponent } from './views/volunteer/request-volunteer.component';
 import { NewRequestComponent } from './new-request/new-request.component';
+import { RequestCardComponent } from './requests/request-card/request-card.component';
+
+import { EditCardComponent } from './requests/edit-card/edit-card.component';
+
+//import { RequestEditComponent } from './requests/request-edit/request-edit/request-edit.component';
+import { DonorInfoComponent } from './views/donor/donor-info/donor-info.component';
 
 
 
@@ -58,17 +64,23 @@ const MATERIAL_MODULES: any[] = [
     NewRequestComponent,
     RequestDonorComponent,
     RequestVolunteerComponent,
+    RequestCardComponent,
+    EditCardComponent,
+    //RequestEditComponent,
+    DonorInfoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatBadgeModule,
     ReactiveFormsModule,
     HttpClientModule,
     MATERIAL_MODULES,
     LayoutModule,
   ],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

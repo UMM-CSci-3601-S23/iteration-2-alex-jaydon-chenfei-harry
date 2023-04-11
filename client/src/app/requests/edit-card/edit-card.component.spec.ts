@@ -8,16 +8,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockRequestService } from 'src/testing/request.service.mock';;
-import { RequestService } from '../requests/request.service';
-import { NewRequestComponent } from './new-request.component';
+import { RequestService } from '../request.service';
 import { Router } from '@angular/router';
+import { EditCardComponent } from './edit-card.component';
 import { of, throwError } from 'rxjs';
 
-
-describe('NewRequestComponent', () => {
-  let newRequestComponent: NewRequestComponent;
-  let newRequestForm: FormGroup;
-  let fixture: ComponentFixture<NewRequestComponent>;
+describe('EditCardComponent', () => {
+  let editCardComponent: EditCardComponent;
+  let editCardForm: FormGroup;
+  let fixture: ComponentFixture<EditCardComponent>;
   let requestService: RequestService;
   let snackBar: MatSnackBar;
   let router: Router;
@@ -36,25 +35,26 @@ describe('NewRequestComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule
       ],
-      declarations: [NewRequestComponent],
+      declarations: [EditCardComponent],
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
   }));
+
   beforeEach(() => {
     // Create a spy for the addRequest method
-    spyOn(TestBed.inject(RequestService), 'addRequest').and.returnValue(throwError({ status: 500, message: 'Internal server error' }));
+    spyOn(TestBed.inject(RequestService), 'updateCard').and.returnValue(throwError({ status: 500, message: 'Internal server error' }));
   });
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewRequestComponent);
-    newRequestComponent = fixture.componentInstance;
+    fixture = TestBed.createComponent(EditCardComponent);
+    editCardComponent = fixture.componentInstance;
     fixture.detectChanges();
-    newRequestForm = newRequestComponent.newRequestForm;
     requestService = TestBed.inject(RequestService);
+    editCardForm = editCardComponent.editCardForm;
     snackBar = TestBed.inject(MatSnackBar);
     router = TestBed.inject(Router);
-    expect(newRequestForm).toBeDefined();
-    expect(newRequestForm.controls).toBeDefined();
+    expect(editCardForm).toBeDefined();
+    expect(editCardForm.controls).toBeDefined();
   });
 
   // Not terribly important; if the component doesn't create
@@ -63,21 +63,22 @@ describe('NewRequestComponent', () => {
   // our component definitions don't have errors that would
   // prevent them from being successfully constructed.
   it('should create the component and form', () => {
-    expect(newRequestComponent).toBeTruthy();
-    expect(newRequestForm).toBeTruthy();
+    expect(editCardComponent).toBeTruthy();
+    expect(editCardForm).toBeTruthy();
   });
 
   // Confirms that an initial, empty form is *not* valid, so
   // people can't submit an empty form.
   it('form should be invalid when empty', () => {
-    expect(newRequestForm.valid).toBeFalsy();
+    expect(editCardForm.valid).toBeFalsy();
   });
+
 
   describe('The description field', () => {
     let descControl: AbstractControl;
 
     beforeEach(() => {
-      descControl = newRequestComponent.newRequestForm.controls.description;
+      descControl = editCardComponent.editCardForm.controls.description;
     });
 
     it('should not allow empty descriptions', () => {
@@ -116,7 +117,41 @@ describe('NewRequestComponent', () => {
     let nameControl: AbstractControl;
 
     beforeEach(() => {
-      nameControl = newRequestComponent.newRequestForm.controls.description;
+      nameControl = editCardComponent.editCardForm.controls.description;
+    });
+
+    it('should not allow empty names', () => {
+      nameControl.setValue('');
+      expect(nameControl.valid).toBeFalsy();
+    });
+
+    it('should be fine with "Allen"', () => {
+      nameControl.setValue('Allen');
+      expect(nameControl.valid).toBeTruthy();
+    });
+
+    // In the real world, you'd want to be pretty careful about
+    // setting upper limits on things like name lengths just
+    // because there are people with really long names.
+    it('should fail on really long descriptions', () => {
+      nameControl.setValue('x'.repeat(500));
+      expect(nameControl.valid).toBeFalsy();
+      // Annoyingly, Angular uses lowercase 'l' here
+      // when it's an upper case 'L' in `Validators.maxLength(2)`.
+      expect(nameControl.hasError('maxlength')).toBeTruthy();
+    });
+
+    it('should allow digits in the description', () => {
+      nameControl.setValue('John the 4th');
+      expect(nameControl.valid).toBeTruthy();
+    });
+  });
+
+  describe('The name field', () => {
+    let nameControl: AbstractControl;
+
+    beforeEach(() => {
+      nameControl = editCardComponent.editCardForm.controls.description;
     });
 
     it('should allow empty name', () => {
@@ -150,7 +185,7 @@ describe('NewRequestComponent', () => {
     let itemTypeControl: AbstractControl;
 
     beforeEach(() => {
-      itemTypeControl = newRequestForm.controls.itemType;
+      itemTypeControl = editCardForm.controls.itemType;
     });
 
     it('should not allow empty values', () => {
@@ -184,7 +219,7 @@ describe('NewRequestComponent', () => {
     let foodTypeControl: AbstractControl;
 
     beforeEach(() => {
-      foodTypeControl = newRequestForm.controls.foodType;
+      foodTypeControl = editCardForm.controls.foodType;
     });
 
     it('should allow empty values', () => {
@@ -226,28 +261,28 @@ describe('NewRequestComponent', () => {
     let itemTypeControl: AbstractControl;
 
     beforeEach(() => {
-      itemTypeControl = newRequestForm.controls.itemType;
+      itemTypeControl = editCardForm.controls.itemType;
     });
 
     it('should return "unknown error" when passed an invalid error code', ()=> {
-      expect(newRequestComponent.getErrorMessage('foodType') === 'Unknown error');
+      expect(editCardComponent.getErrorMessage('foodType') === 'Unknown error');
     });
 
     it('should return "required" error when itemType is empty', ()=> {
       itemTypeControl.setValue('--');
-      expect(newRequestComponent.getErrorMessage('itemType')).toBeTruthy();
+      expect(editCardComponent.getErrorMessage('itemType')).toBeTruthy();
     });
     it('should submit the form successfully', waitForAsync(() => {
-      requestService.addRequest = jasmine.createSpy().and.returnValue(of('newRequestId'));
-      //spyOn(requestService, 'addRequest').and.returnValue(of('newRequestId'));
+      requestService.updateCard = jasmine.createSpy().and.returnValue(of('editCardId'));
+      //spyOn(requestService, 'updateCard').and.returnValue(of('editCardId'));
       spyOn(snackBar, 'open');
       spyOn(router, 'navigate');
 
-      newRequestComponent.submitForm();
+      editCardComponent.submitForm();
 
       fixture.whenStable().then(() => {
-        expect(requestService.addRequest).toHaveBeenCalled();
-        expect(router.navigate).toHaveBeenCalledWith(['/requests', 'newRequestId']);
+        expect(requestService.updateCard).toHaveBeenCalled();
+        expect(router.navigate).toHaveBeenCalledWith(['/requests/volunteer']);
       });
     }));
 
@@ -260,10 +295,10 @@ describe('NewRequestComponent', () => {
       spyOn(snackBar, 'open');
       spyOn(router, 'navigate');
 
-      newRequestComponent.submitForm();
+      editCardComponent.submitForm();
 
       fixture.whenStable().then(() => {
-        expect(requestService.addRequest).toHaveBeenCalled();
+        expect(requestService.updateCard).toHaveBeenCalled();
         expect(snackBar.open).toHaveBeenCalledWith(
           `Problem contacting the server – Error Code: ${errorResponse.status}\nMessage: ${errorResponse.message}`,
           'OK',

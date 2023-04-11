@@ -6,7 +6,7 @@ describe('App', () => {
   beforeEach(() => page.navigateTo());
 
   it('Should have the correct title', () => {
-    page.getAppTitle().should('contain', 'PocketShelf');
+    page.getAppTitle().should('contain', 'Shelf Help');
   });
 
   it('There is no sidebar on the homepage', () => {

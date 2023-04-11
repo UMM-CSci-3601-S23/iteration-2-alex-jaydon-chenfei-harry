@@ -34,35 +34,20 @@
 
     </mat-card-content>
     </mat-card>
-  </div>
-</div>
 
-<!--List View-->
+<!--Card View-->
 <div class="flex-row">
-  <div class="flex-1" *ngIf="serverFilteredRequests; else requestsError">
-    <mat-card-content>
-      <mat-nav-list class="volunteer-nav-list">
-        <h3 mat-subheader>Requests</h3>
-        <a mat-list-item *ngFor="let request of this.serverFilteredRequests" [routerLink]="['/requests/volunteer', request._id]" class="volunteer-list-item">
-          <span matListItemTitle class="volunteer-list-itemType">Item Type: {{request.itemType}}</span>
-          <span matListItemLine class="volunteer-list-foodType">Food Type: {{request.foodType}}</span>
-          <span matListItemBody class="volunteer-list-description">{{request.description}}</span>
-        </a>
-      </mat-nav-list>
-    </mat-card-content>
-  </div>
-
-  <ng-template #requestsError>
-    <div class="flex-1" class="requests-error">
-      <mat-error>
-        There was a problem loading the requests. The server may be down or there are
-        network issues.
-      </mat-error>
-      <mat-error>
-        Please wait a bit and try again or start the server.
-      </mat-error>
+  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredRequests" >
+    <div *ngIf="filteredRequests.length > 0" class="highest-priority">
+      <app-request-card [showName]="true" [request]="filteredRequests[0]" class="volunteer-request-card" fxFlex="1 1 280px"></app-request-card>
     </div>
-  </ng-template>
+    <!-- Card grid view -->
+    <div class="request-cards-container flex-row gap-10 flex-wrap">
+
+      <!-- Keep [showName] as true. Volunteers need to be able to see who requested certain items. -->
+      <app-request-card [showName]="true" *ngFor="let request of filteredRequests.slice(1)" class="volunteer-request-card" [request]="request" fxFlex="1 1 280px"></app-request-card>
+    </div>
+  </div>
 </div>
 
 <div>
@@ -74,5 +59,53 @@
   >
   Back to Homepage
 </button>
+<br>
+<br>
+<div>
+  <!-- (click)="sortRequests() -->
+  <button mat-raised-button color="primary" data-test="sortbyPriorityButton" (click)="getRequestsFromServer()">Sort by priority</button>
 </div>
 
+<div class="request-cards flex-row gap-10 flex-wrap">
+  <mat-card *ngFor="let request of filteredRequests" class="priority-request-card">
+    <mat-card-header>
+      <mat-card-title>{{ request.itemType }}</mat-card-title>
+      <mat-card-subtitle>{{ request.foodType }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ request.description }}</p>
+      <div>
+        <strong>Priority:</strong>
+        <input #box type="number" id="priority-input-field" [(ngModel)]="request.priority" (input)="updateRequestPriority(request, box.value)"
+        min="1" max="5" data-test="requestPriorityInput">
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+</div>
+<style>
+  .request-cards {
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .request-card {
+    width: calc((100% - 2rem) / 3);
+  }
+
+  @media only screen and (max-width: 768px) {
+    .request-card {
+      width: calc((100% - 1rem) / 2);
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    .request-card {
+      width: 100%;
+    }
+  }
+</style>
